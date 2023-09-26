@@ -1,0 +1,45 @@
+.container{
+    padding-top: 100px;
+}
+
+.subContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.bottomContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+    padding-top: 20px;
+    column-gap: 40px;
+    padding-right: 20px;
+    
+}
+
+.bottomContainer > button{
+    height: 64px;
+}
+
+.price{
+    display: flex;
+    flex-direction: row;
+    column-gap: 4px;
+    height: 100px;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.ingredients{
+    max-height: 38vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    row-gap: 16px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
