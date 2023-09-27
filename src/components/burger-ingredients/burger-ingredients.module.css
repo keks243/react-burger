@@ -14,6 +14,10 @@
     height: 76vh;
 }
 
+.burgerIngredientsTitle{
+    text-align: start;
+}
+
 .itemContainer{
     padding-top: 40px;
     

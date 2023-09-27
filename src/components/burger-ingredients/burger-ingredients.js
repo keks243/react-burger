@@ -5,8 +5,9 @@ import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import Card from '../card/card'
 
 
+
 function BurgerIngredients({data}) {
-    const [current, setCurrent] = React.useState('Булки')
+    const [current, setCurrent] = React.useState('bun')
 
     const types = ['bun' , 'main', 'sauce']
     const typesRu = ['Булки' , 'Соусы', 'Начинки']
@@ -17,7 +18,7 @@ function BurgerIngredients({data}) {
    
          
     <section className={styles.container }>
-        <h1 className="text text_type_main-large" style={{textAlign: 'start'}}>Соберите бургер</h1>
+        <h1 className={`text text_type_main-large ${styles.burgerIngredientsTitle}`} >Соберите бургер</h1>
         <section className={styles.tabs}>
             {types.map((item, index) => (
                 <Tab key={index} active={current === item} value={item} onClick={setCurrent}>
@@ -45,8 +46,23 @@ function BurgerIngredients({data}) {
   );
 }
 
+
 BurgerIngredients.propTypes = {
-    data: PropTypes.array.isRequired
-};
+    data: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    proteins: PropTypes.number.isRequired,
+    fat: PropTypes.number.isRequired,
+    carbohydrates: PropTypes.number.isRequired,
+    calories: PropTypes.number.isRequired,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
+    image_mobile: PropTypes.string.isRequired,
+    image_large: PropTypes.string.isRequired,
+    __v: PropTypes.number.isRequired,
+    })),
+}
+
 
 export default BurgerIngredients;
