@@ -31,7 +31,7 @@ function BurgerIngredients({data}) {
              <section key={indexBlocks} className={styles.itemContainer}>
                 <h2 className="text text_type_main-medium" style={{textAlign: 'start'}}>{typesRu[indexBlocks]}</h2> 
                 <section className={styles.itemSubContainer}>
-                    {data.filter(ingredient => ingredient.type == block).map((item, indexItems) => 
+                    {data.filter(ingredient => ingredient.type === block).map((item, indexItems) => 
                         <Card key={indexItems} item={item} /> 
                     )}
                 </section>
