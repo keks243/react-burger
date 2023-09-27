@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './burger-ingredients.module.css';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
-import Card from '../Card/Card';
+import Card from '../card/card'
 
 
 function BurgerIngredients({data}) {
