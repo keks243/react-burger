@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
+import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
@@ -8,9 +8,9 @@ import data from '../../data'
 
 function App() {
   return (
-    <section className="App">    
+    <section className={styles.App}>    
       <AppHeader/>
-     <main className='appContainer'>
+     <main className={styles.appContainer}>
       <BurgerIngredients data={data}/>
       <BurgerConstructor data={data}/>
      </main>
