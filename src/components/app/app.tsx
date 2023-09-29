@@ -1,18 +1,36 @@
 import React from 'react';
-import logo from './logo.svg';
+import { useState, useEffect } from 'react';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import data from '../../data'
+
 
 function App() {
+
+  const URL = 'https://norma.nomoreparties.space/api/ingredients'
+
+  const [data, setData] = useState([])
+
+
+  useEffect(() => {
+      fetch(URL)
+          .then(res => res.json())
+          .then(res => setData(res.data))
+          .catch(err => console.log(err))
+        
+  }, []);
+
+ 
+
   return (
-    <section className={styles.App}>    
+    <section className={styles.App}> 
+        
       <AppHeader/>
      <main className={styles.appContainer}>
       <BurgerIngredients data={data}/>
       <BurgerConstructor data={data}/>
+      
      </main>
     </section>
   );

@@ -1,0 +1,30 @@
+.container{
+    display: flex;
+    flex-direction: column;
+}
+
+.container > img{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    height: 150px;
+}
+
+.item{
+    text-align: center;
+}
+
+.downContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    column-gap: 20px;
+    padding-top: 32px;
+    padding-bottom: 20px;
+}
+
+.detail{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

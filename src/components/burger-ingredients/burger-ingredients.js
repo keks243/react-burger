@@ -1,18 +1,25 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styles from './burger-ingredients.module.css';
+import Modal from '../modal/modal'
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
+import IngredientDetails from '../ingredient-details/ingredient-details'
 import Card from '../card/card'
 
 
 
 function BurgerIngredients({data}) {
     const [current, setCurrent] = React.useState('bun')
-
+    const [open, setOpen] = useState(false)
+    const [dataItem, setdataItem] = useState({})
     const types = ['bun' , 'main', 'sauce']
     const typesRu = ['Булки' , 'Соусы', 'Начинки']
 
-    // .find((e) => e.price == types[indexBlocks])
+    function getItem(item){
+        setdataItem(item)
+        setOpen(true)
+    }
 
   return (
    
@@ -33,12 +40,17 @@ function BurgerIngredients({data}) {
                 <h2 className="text text_type_main-medium" style={{textAlign: 'start'}}>{typesRu[indexBlocks]}</h2> 
                 <section className={styles.itemSubContainer}>
                     {data.filter(ingredient => ingredient.type === block).map((item, indexItems) => 
+                    <section onClick={() => getItem(item)}>
                         <Card key={indexItems} item={item} /> 
+                    </section>
+                        
                     )}
                 </section>
             </section>
-            )}
-           
+            )}  
+            <Modal open={open} closeModal={() => setOpen(false)} title = 'Детали ингредиента'>
+                <IngredientDetails item={dataItem}/>    
+            </Modal> 
         </section>
     </section>   
     
