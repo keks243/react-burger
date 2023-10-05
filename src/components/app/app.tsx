@@ -1,4 +1,5 @@
 import React from "react";
+import { DataContext } from "./data-context.js";
 import { useState, useEffect } from "react";
 import styles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
@@ -23,8 +24,10 @@ function App() {
     <section className={styles.App}>
       <AppHeader />
       <main className={styles.appContainer}>
-        <BurgerIngredients data={data} />
-        <BurgerConstructor data={data} />
+        <DataContext.Provider value={data}>
+          <BurgerIngredients />
+          <BurgerConstructor />
+        </DataContext.Provider>
       </main>
     </section>
   );

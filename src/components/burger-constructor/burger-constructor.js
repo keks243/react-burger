@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { DataContext } from "../app/data-context.js";
 import styles from "./burger-constructor.module.css";
 import OredertDetails from "../order-details/order-details";
 import PropTypesItem from "../proptypes/proptypes-item";
@@ -11,17 +12,38 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-function BurgerConstructor({ data }) {
+function BurgerConstructor() {
   const [open, setOpen] = useState(false);
+  const [number, setNumber] = useState();
+  const data = useContext(DataContext);
+  const bodyPost = ["643d69a5c3f7b9001cfa093c"];
+  const URL = "https://norma.nomoreparties.space/api/orders"
 
-  let bun = "";
+  let bunIamge = "";
+
   let sum = 0;
   for (let index = 0; index < data.length; index++) {
     sum += data[index].price;
     if (data.filter((e) => e.type === "bun")) {
-      bun = data[index].image;
+      bunIamge = data[index].image;
       break;
     }
+  }
+
+  function openModal() {
+    fetch(URL, {
+      method: "POST",
+      body: JSON.stringify({ ingredients: bodyPost }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((res) =>
+        res.ok ? res.json() : res.json().then((err) => Promise.reject(err))
+      )
+      .then((res) => console.log(res))
+      .then(setOpen(true))
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -32,7 +54,7 @@ function BurgerConstructor({ data }) {
           isLocked={true}
           text="Краторная булка N-200i (верх)"
           price={200}
-          thumbnail={bun}
+          thumbnail={bunIamge}
         />
         <section className={`custom-scroll ${styles.ingredients}`}>
           {data
@@ -51,7 +73,7 @@ function BurgerConstructor({ data }) {
           isLocked={true}
           text="Краторная булка N-200i (низ)"
           price={200}
-          thumbnail={bun}
+          thumbnail={bunIamge}
         />
       </section>
       <section className={styles.bottomContainer}>
@@ -64,13 +86,13 @@ function BurgerConstructor({ data }) {
           htmlType="button"
           type="primary"
           size="medium"
-          onClick={() => setOpen(true)}
+          onClick={openModal}
         >
           Оформить заказ
         </Button>
       </section>
       {open && (
-        <Modal closeModal={() => setOpen(false)} title="">
+        <Modal closeModal={() => setOpen(false)}>
           <OredertDetails />
         </Modal>
       )}

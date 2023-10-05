@@ -1,5 +1,6 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { DataContext } from "../app/data-context.js";
 import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import Modal from "../modal/modal";
@@ -8,12 +9,13 @@ import PropTypesItem from "../proptypes/proptypes-item";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Card from "../card/card";
 
-function BurgerIngredients({ data }) {
+function BurgerIngredients() {
   const [current, setCurrent] = React.useState("bun");
   const [open, setOpen] = useState(false);
   const [dataItem, setdataItem] = useState({});
   const types = ["bun", "main", "sauce"];
   const typesRu = ["Булки", "Соусы", "Начинки"];
+  const data = useContext(DataContext);
 
   function getItem(item) {
     setdataItem(item);
@@ -69,8 +71,8 @@ function BurgerIngredients({ data }) {
   );
 }
 
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(PropTypesItem).isRequired,
-};
+// BurgerIngredients.propTypes = {
+//   data: PropTypes.arrayOf(PropTypesItem).isRequired,
+// };
 
 export default BurgerIngredients;
