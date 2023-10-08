@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useState, useEffect, useContext } from "react";
-import { DataContext } from "../app/data-context.js";
+import { useState, useEffect, useContext, useReducer } from "react";
+import { DataContext } from "../app/contexts.js";
 import styles from "./burger-constructor.module.css";
 import OredertDetails from "../order-details/order-details";
 import PropTypesItem from "../proptypes/proptypes-item";
@@ -11,24 +11,53 @@ import {
   Button,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { NumberContext } from "../app/contexts.js";
 
 function BurgerConstructor() {
   const [open, setOpen] = useState(false);
-  const [number, setNumber] = useState();
+  const [number, setNumber] = useContext(NumberContext);
   const data = useContext(DataContext);
-  const bodyPost = ["643d69a5c3f7b9001cfa093c"];
-  const URL = "https://norma.nomoreparties.space/api/orders"
+  const URL = "https://norma.nomoreparties.space/api/orders";
+  let bodyPost = [];
+  let bun = { name: "", image: "", price: "" };
+  let totalCost = 0;
 
-  let bunIamge = "";
-
-  let sum = 0;
   for (let index = 0; index < data.length; index++) {
-    sum += data[index].price;
-    if (data.filter((e) => e.type === "bun")) {
-      bunIamge = data[index].image;
+    bodyPost.push(data[index]._id);
+  }
+
+  for (let index = 0; index < data.length; index++) {
+    if (data.find((e) => e.type === "bun")) {
+      bun = {
+        name: data[index].name,
+        image: data[index].image,
+        price: data[index].price,
+      };
       break;
     }
   }
+
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case "UPDATE_TOTAL_COST":
+        const newTotalCost = data.reduce(
+          (total, item) => total + item.price,
+          0
+        );
+        return {
+          ...state,
+          totalCost: newTotalCost,
+        };
+      default:
+        return state;
+    }
+  };
+
+  const [state, dispatch] = useReducer(reducer, totalCost);
+
+  useEffect(() => {
+    dispatch({ type: "UPDATE_TOTAL_COST" });
+  }, [data]);
 
   function openModal() {
     fetch(URL, {
@@ -41,7 +70,7 @@ function BurgerConstructor() {
       .then((res) =>
         res.ok ? res.json() : res.json().then((err) => Promise.reject(err))
       )
-      .then((res) => console.log(res))
+      .then((res) => setNumber(res.order.number))
       .then(setOpen(true))
       .catch((err) => console.log(err));
   }
@@ -52,9 +81,9 @@ function BurgerConstructor() {
         <ConstructorElement
           type="top"
           isLocked={true}
-          text="Краторная булка N-200i (верх)"
-          price={200}
-          thumbnail={bunIamge}
+          text={`${bun.name} (верх)`}
+          price={bun.price}
+          thumbnail={bun.image}
         />
         <section className={`custom-scroll ${styles.ingredients}`}>
           {data
@@ -71,14 +100,16 @@ function BurgerConstructor() {
         <ConstructorElement
           type="bottom"
           isLocked={true}
-          text="Краторная булка N-200i (низ)"
-          price={200}
-          thumbnail={bunIamge}
+          text={`${bun.name} (низ)`}
+          price={bun.price}
+          thumbnail={bun.image}
         />
       </section>
       <section className={styles.bottomContainer}>
         <section className={styles.price}>
-          <span className="text text_type_digits-medium">{sum}</span>
+          <span className="text text_type_digits-medium">
+            {state.totalCost}
+          </span>
           <CurrencyIcon type="primary" />
         </section>
 
@@ -99,9 +130,5 @@ function BurgerConstructor() {
     </section>
   );
 }
-
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(PropTypesItem),
-};
 
 export default BurgerConstructor;

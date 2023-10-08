@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect, useContext } from "react";
-import { DataContext } from "../app/data-context.js";
+import { DataContext } from "../app/contexts.js";
 import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import Modal from "../modal/modal";
@@ -70,9 +70,5 @@ function BurgerIngredients() {
     </section>
   );
 }
-
-// BurgerIngredients.propTypes = {
-//   data: PropTypes.arrayOf(PropTypesItem).isRequired,
-// };
 
 export default BurgerIngredients;

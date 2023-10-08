@@ -1,5 +1,6 @@
 import React from "react";
-import { DataContext } from "./data-context.js";
+import { DataContext } from "./contexts.js";
+import { NumberContext } from "./contexts.js";
 import { useState, useEffect } from "react";
 import styles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
@@ -10,6 +11,8 @@ function App() {
   const URL = "https://norma.nomoreparties.space/api/ingredients";
 
   const [data, setData] = useState([]);
+  const [randomIngredients ,setRandomIngredients] = useState([]);
+  const number = useState();
 
   useEffect(() => {
     fetch(URL)
@@ -18,7 +21,9 @@ function App() {
       )
       .then((res) => setData(res.data))
       .catch((err) => console.log(err));
+    
   }, []);
+  
 
   return (
     <section className={styles.App}>
@@ -26,7 +31,9 @@ function App() {
       <main className={styles.appContainer}>
         <DataContext.Provider value={data}>
           <BurgerIngredients />
-          <BurgerConstructor />
+          <NumberContext.Provider value={number}>
+            <BurgerConstructor />
+          </NumberContext.Provider>
         </DataContext.Provider>
       </main>
     </section>
