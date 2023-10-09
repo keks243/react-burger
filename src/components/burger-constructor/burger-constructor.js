@@ -70,8 +70,10 @@ function BurgerConstructor() {
       .then((res) =>
         res.ok ? res.json() : res.json().then((err) => Promise.reject(err))
       )
-      .then((res) => setNumber(res.order.number))
-      .then(setOpen(true))
+      .then((res) => {
+        setOpen(true)
+        setNumber(res.order.number)
+      })
       .catch((err) => console.log(err));
   }
 

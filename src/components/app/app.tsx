@@ -11,7 +11,6 @@ function App() {
   const URL = "https://norma.nomoreparties.space/api/ingredients";
 
   const [data, setData] = useState([]);
-  const [randomIngredients ,setRandomIngredients] = useState([]);
   const number = useState();
 
   useEffect(() => {
