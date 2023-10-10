@@ -8,18 +8,29 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypesItem from "../proptypes/proptypes-item";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Card from "../card/card";
+import { useSelector, useDispatch } from "react-redux";
+import { addIngredient } from "../../services/ingredients/actions.js";
+
 
 function BurgerIngredients() {
   const [current, setCurrent] = React.useState("bun");
   const [open, setOpen] = useState(false);
   const [dataItem, setdataItem] = useState({});
+  const data = useSelector(state => state.ingredients.ingredients)
   const types = ["bun", "main", "sauce"];
   const typesRu = ["Булки", "Соусы", "Начинки"];
-  const data = useContext(DataContext);
+
+  const dispatch = useDispatch();
+
+  const onAdd = (ingredientObj) => {
+    dispatch(addIngredient(ingredientObj))
+  }
+  
 
   function getItem(item) {
     setdataItem(item);
     setOpen(true);
+    onAdd();
   }
 
   return (

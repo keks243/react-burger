@@ -6,6 +6,8 @@ import styles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
+import { useDispatch } from "react-redux";
+import {GET_INGREDIENTS__SUCCESS} from '../../services/ingredients/actions.js'
 
 function App() {
   const URL = "https://norma.nomoreparties.space/api/ingredients";
@@ -13,15 +15,20 @@ function App() {
   const [data, setData] = useState([]);
   const number = useState();
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     fetch(URL)
       .then((res) =>
         res.ok ? res.json() : res.json().then((err) => Promise.reject(err))
       )
-      .then((res) => setData(res.data))
+      .then((res) => {
+        dispatch({ type: GET_INGREDIENTS__SUCCESS, payload: res.data })
+        setData(res.data)
+      })
       .catch((err) => console.log(err));
     
-  }, []);
+  }, [dispatch]);
   
 
   return (

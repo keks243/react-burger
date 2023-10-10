@@ -1,7 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { nanoid } from 'nanoid'
 import { useState, useEffect, useContext, useReducer } from "react";
 import { DataContext } from "../app/contexts.js";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./burger-constructor.module.css";
 import OredertDetails from "../order-details/order-details";
 import PropTypesItem from "../proptypes/proptypes-item";
@@ -12,15 +14,27 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NumberContext } from "../app/contexts.js";
+import { getConstructorIngredients } from "../../services/ingredients/selectors.js";
+import { deleteIngredient } from "../../services/ingredients/actions.js";
 
 function BurgerConstructor() {
   const [open, setOpen] = useState(false);
   const [number, setNumber] = useContext(NumberContext);
-  const data = useContext(DataContext);
+  // const data = useContext(DataContext);
   const URL = "https://norma.nomoreparties.space/api/orders";
+
   let bodyPost = [];
   let bun = { name: "", image: "", price: "" };
   let totalCost = 0;
+
+  const data = useSelector(getConstructorIngredients);
+
+  const dispatch = useDispatch();
+
+  const onDelete = (ingredientObj) => {
+    dispatch(deleteIngredient(ingredientObj))
+  }
+
 
   for (let index = 0; index < data.length; index++) {
     bodyPost.push(data[index]._id);
@@ -37,27 +51,27 @@ function BurgerConstructor() {
     }
   }
 
-  const reducer = (state, action) => {
-    switch (action.type) {
-      case "UPDATE_TOTAL_COST":
-        const newTotalCost = data.reduce(
-          (total, item) => total + item.price,
-          0
-        );
-        return {
-          ...state,
-          totalCost: newTotalCost,
-        };
-      default:
-        return state;
-    }
-  };
+  // const reducer = (state, action) => {
+  //   switch (action.type) {
+  //     case "UPDATE_TOTAL_COST":
+  //       const newTotalCost = data.reduce(
+  //         (total, item) => total + item.price,
+  //         0
+  //       );
+  //       return {
+  //         ...state,
+  //         totalCost: newTotalCost,
+  //       };
+  //     default:
+  //       return state;
+  //   }
+  // };
 
-  const [state, dispatch] = useReducer(reducer, totalCost);
+  // const [state, dispatch] = useReducer(reducer, totalCost);
 
-  useEffect(() => {
-    dispatch({ type: "UPDATE_TOTAL_COST" });
-  }, [data]);
+  // useEffect(() => {
+  //   dispatch({ type: "UPDATE_TOTAL_COST" });
+  // }, [data]);
 
   function openModal() {
     fetch(URL, {
@@ -95,7 +109,8 @@ function BurgerConstructor() {
                 text={item.name}
                 price={item.price}
                 thumbnail={item.image}
-                key={index}
+                key={item.uniqId}
+                onClick={onDelete}
               />
             ))}
         </section>
@@ -110,7 +125,7 @@ function BurgerConstructor() {
       <section className={styles.bottomContainer}>
         <section className={styles.price}>
           <span className="text text_type_digits-medium">
-            {state.totalCost}
+            {totalCost}
           </span>
           <CurrencyIcon type="primary" />
         </section>
