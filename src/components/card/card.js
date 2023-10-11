@@ -2,18 +2,30 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./card.module.css";
 import PropTypesItem from "../proptypes/proptypes-item";
+import { useSelector } from "react-redux";
+import { getConstructorIngredients } from "../../services/ingredients/selectors.js";
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 function Card({ item }) {
+  const constructorIngredients = useSelector(getConstructorIngredients);
+  let ingredientCounter = 0;
+
+  for (let index = 0; index < constructorIngredients.length; index++) {
+    if (constructorIngredients[index]._id == item._id) {
+      ingredientCounter += 1;
+    }
+  }
+
   return (
     <section className={styles.item}>
-      <section className={styles.counter}>
-        <Counter count={1} size="default" extraClass="m-1" />
-      </section>
-
+      {ingredientCounter != 0 && (
+        <section className={styles.counter}>
+          <Counter count={ingredientCounter} size="default" extraClass="m-1" />
+        </section>
+      )}
       <img src={item.image} />
       <section className={styles.priceContainer}>
         <span className="text text_type_main-medium">{item.price}</span>

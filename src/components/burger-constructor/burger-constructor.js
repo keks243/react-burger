@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { nanoid } from 'nanoid'
+import { nanoid } from "nanoid";
 import { useState, useEffect, useContext, useReducer } from "react";
 import { DataContext } from "../app/contexts.js";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,8 +19,6 @@ import { deleteIngredient } from "../../services/ingredients/actions.js";
 
 function BurgerConstructor() {
   const [open, setOpen] = useState(false);
-  const [number, setNumber] = useContext(NumberContext);
-  // const data = useContext(DataContext);
   const URL = "https://norma.nomoreparties.space/api/orders";
 
   let bodyPost = [];
@@ -28,13 +26,10 @@ function BurgerConstructor() {
   let totalCost = 0;
 
   const data = useSelector(getConstructorIngredients);
-
   const dispatch = useDispatch();
-
   const onDelete = (ingredientObj) => {
-    dispatch(deleteIngredient(ingredientObj))
-  }
-
+    dispatch(deleteIngredient(ingredientObj));
+  };
 
   for (let index = 0; index < data.length; index++) {
     bodyPost.push(data[index]._id);
@@ -51,28 +46,6 @@ function BurgerConstructor() {
     }
   }
 
-  // const reducer = (state, action) => {
-  //   switch (action.type) {
-  //     case "UPDATE_TOTAL_COST":
-  //       const newTotalCost = data.reduce(
-  //         (total, item) => total + item.price,
-  //         0
-  //       );
-  //       return {
-  //         ...state,
-  //         totalCost: newTotalCost,
-  //       };
-  //     default:
-  //       return state;
-  //   }
-  // };
-
-  // const [state, dispatch] = useReducer(reducer, totalCost);
-
-  // useEffect(() => {
-  //   dispatch({ type: "UPDATE_TOTAL_COST" });
-  // }, [data]);
-
   function openModal() {
     fetch(URL, {
       method: "POST",
@@ -85,8 +58,7 @@ function BurgerConstructor() {
         res.ok ? res.json() : res.json().then((err) => Promise.reject(err))
       )
       .then((res) => {
-        setOpen(true)
-        setNumber(res.order.number)
+        setOpen(true);
       })
       .catch((err) => console.log(err));
   }
@@ -110,7 +82,7 @@ function BurgerConstructor() {
                 price={item.price}
                 thumbnail={item.image}
                 key={item.uniqId}
-                onClick={onDelete}
+                handleClose={() => onDelete(item)}
               />
             ))}
         </section>
@@ -124,9 +96,7 @@ function BurgerConstructor() {
       </section>
       <section className={styles.bottomContainer}>
         <section className={styles.price}>
-          <span className="text text_type_digits-medium">
-            {totalCost}
-          </span>
+          <span className="text text_type_digits-medium">{totalCost}</span>
           <CurrencyIcon type="primary" />
         </section>
 

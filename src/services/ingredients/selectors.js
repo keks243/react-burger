@@ -1,1 +1,1 @@
-export const getConstructorIngredients = state => state.ingredients.constructorIngredients
+export const getConstructorIngredients = state => state.ingredients.constructorIngredients;
