@@ -1,5 +1,6 @@
 .container{
     padding-top: 100px;
+    
 }
 
 .subContainer{
@@ -34,7 +35,9 @@
 
 
 .ingredients{
+    min-height: 2vh;
     max-height: 38vh;
+    min-width: 540px;
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
@@ -43,3 +46,4 @@
     padding-top: 8px;
     padding-bottom: 8px;
 }
+

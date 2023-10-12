@@ -7,6 +7,8 @@ export const GET_INGREDIENTS__FAILURE = 'GET_INGREDIENTS__FAILURE';
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
 
+export const SORT_INGREDIENT = 'SORT_INGREDIENT';
+
 export const GET_SELECT_INGREDIENT = 'GET_SELECT_INGREDIENT';
 
 export const getIngredients = (URL) => (dispatch) =>{
