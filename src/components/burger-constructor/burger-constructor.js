@@ -4,8 +4,10 @@ import { nanoid } from "nanoid";
 import { useState, useEffect, useContext, useReducer } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
-import { addIngredient, SORT_INGREDIENT } from "../../services/ingredients/actions.js";
+import { SORT_INGREDIENT, DELETE_INGREDIENT } from "../../services/constructor/actions.js";
+import { addIngredient } from "../../services/constructor/actions.js";
 import BurgerConstructorMain from "../burger-constructor-main/burger-constructor-main.js";
+import { postOrderIngredients } from "../../services/constructor/actions.js";
 import styles from "./burger-constructor.module.css";
 import OrdertDetails from "../order-details/order-details";
 import PropTypesItem from "../proptypes/proptypes-item";
@@ -15,24 +17,27 @@ import {
   Button,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { getConstructorIngredients } from "../../services/ingredients/selectors.js";
-import { deleteIngredient } from "../../services/ingredients/actions.js";
+import { getConstructorIngredients } from "../../services/constructor/selectors.js";
+import { deleteIngredient } from "../../services/constructor/actions.js";
 
 
 function BurgerConstructor() {
-  const [open, setOpen] = useState(false);
-  const [number, setNumber] = useState();
+  const [open, setOpen] = useState(false)  
   const URL = "https://norma.nomoreparties.space/api/orders";
+  const number = useSelector(state => state.ingredientsСonstructor.number)
 
   let bodyPost = [];
   let bun = { name: "", image: "", price: "" };
   let totalCost = 0;
 
-  const data = useSelector(getConstructorIngredients);
+
   const dispatch = useDispatch();
+
   const onDelete = (ingredientObj) => {
     dispatch(deleteIngredient(ingredientObj));
   };
+
+  const data = useSelector(getConstructorIngredients);
 
   const [, dropRef] = useDrop({
     accept: "ingredient",
@@ -71,22 +76,18 @@ function BurgerConstructor() {
     newCards.push(...findBun)
     dispatch({type: SORT_INGREDIENT, payload: newCards})
 }
-
+  let openModalStore = useSelector(getConstructorIngredients);
   function openModal() {
-    fetch(URL, {
-      method: "POST",
-      body: JSON.stringify({ ingredients: bodyPost }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    })
-      .then((res) =>
-        res.ok ? res.json() : res.json().then((err) => Promise.reject(err))
-      )
-      .then((res) => setNumber(res.order.number))
-      .then(setOpen(true))
-      .catch((err) => console.log(err));
+    setOpen(openModalStore)
+    dispatch(postOrderIngredients(bodyPost, URL))
+    
   }
+
+  function closeModal() {
+    setOpen(false)
+  }
+
+  
 
   return (
     <section ref={dropRef} className={styles.container}>
@@ -136,7 +137,7 @@ function BurgerConstructor() {
         </Button>
       </section>
       {open && (
-        <Modal closeModal={() => setOpen(false)}>
+        <Modal closeModal={() => closeModal()}>
           <OrdertDetails number={number} />
         </Modal>
       )}

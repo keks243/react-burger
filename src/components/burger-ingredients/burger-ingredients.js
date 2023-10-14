@@ -9,7 +9,7 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import Card from "../card/card";
 import { useSelector, useDispatch } from "react-redux";
 import { useInView } from "react-intersection-observer";
-import { getConstructorIngredients } from "../../services/ingredients/selectors.js";
+import { getConstructorIngredients } from "../../services/constructor/selectors.js";
 import { GET_SELECT_INGREDIENT } from "../../services/ingredients/actions.js";
 
 function BurgerIngredients() {

@@ -2,9 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./order-details.module.css";
 import done from "../../images/done.png";
+import { getConstructorIngredients } from "../../services/constructor/selectors";
+import { useDispatch, useSelector } from "react-redux";
+
 
 
 const OrdertDetails = ({number}) => {
+
 
   return (
     <section className={styles.container}>

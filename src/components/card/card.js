@@ -4,7 +4,7 @@ import styles from "./card.module.css";
 import PropTypesItem from "../proptypes/proptypes-item";
 import { useDrag} from "react-dnd";
 import { useSelector } from "react-redux";
-import { getConstructorIngredients } from "../../services/ingredients/selectors.js";
+import { getConstructorIngredients } from "../../services/constructor/selectors.js";
 import {
   CurrencyIcon,
   Counter,
