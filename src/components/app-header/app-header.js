@@ -3,44 +3,64 @@ import {
   ProfileIcon,
   ListIcon,
   BurgerIcon,
-  Padding,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Typography } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./app-header.module.css";
 import "./app-header.module.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 function AppHeader() {
   return (
     <header className={styles.container}>
       <section className={styles.subContainer}>
-
-        <NavLink
-          to={{ pathname: `/` }}
-          className={styles.buttonContainer}
-          activeClassName={styles.activeButtonContainer}
-        >
-          <BurgerIcon type="secondary" />
-          <span className="pl-2 text text_type_main-default text_color_inactive">
-            Конструктор
-          </span>
+        <NavLink to="/" className={styles.buttonContainer}>
+          {({ isActive }) => (
+            <>
+              <BurgerIcon type={isActive ? "primary" : "secondary"} />
+              <span
+                className={`${
+                  isActive ? styles.activeText : styles.text
+                } pl-2 text text_type_main-default text_color_inactive`}
+              >
+                Конструктор
+              </span>
+            </>
+          )}
         </NavLink>
 
-        <a href="#" className={styles.buttonContainer}>
-          <ListIcon type="secondary" />
-          <span className=" pl-2 text text_type_main-default text_color_inactive">
-            Лента заказов
-          </span>
-        </a>
+        <NavLink to="123" className={styles.buttonContainer}>
+          {({ isActive }) => (
+            <>
+              <ListIcon type={isActive ? "primary" : "secondary"} />
+              <span
+                className={`${
+                  isActive ? styles.activeText : styles.text
+                } pl-2 text text_type_main-default text_color_inactive`}
+              >
+                Лента заказов
+              </span>
+            </>
+          )}
+        </NavLink>
       </section>
-      <Logo value="one"></Logo>
+      <Link to="/">
+        <Logo />
+      </Link>
+
       <section className={styles.subContainer}>
-        <a href="#" className={styles.buttonContainer}>
-          <ProfileIcon type="secondary" />
-          <span className="pl-2 text text_type_main-default text_color_inactive">
-            Личный кабинет
-          </span>
-        </a>
+        <NavLink to="profile" className={styles.buttonContainer}>
+          {({ isActive }) => (
+            <>
+              <ProfileIcon type={isActive ? "primary" : "secondary"} />
+              <span
+                className={`${
+                  isActive ? styles.activeText : styles.text
+                } pl-2 text text_type_main-default text_color_inactive`}
+              >
+                Личный кабинет
+              </span>
+            </>
+          )}
+        </NavLink>
       </section>
     </header>
   );
