@@ -1,0 +1,41 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 80vh;
+    
+}
+
+.form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 24px;
+}
+
+.form > h1 {
+    font-size: 26px;
+}
+
+.form > button{
+    width: 30%;
+    margin-bottom: 60px;
+}
+
+.linkRow{
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+}
+
+.linkRow > span{
+    color: #8585AD;
+}
+
+.link{
+    text-decoration: none;
+    color: #4C4CFF;
+}

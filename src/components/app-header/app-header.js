@@ -8,17 +8,24 @@ import {
 import { Typography } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./app-header.module.css";
 import "./app-header.module.css";
+import { NavLink } from "react-router-dom";
 
 function AppHeader() {
   return (
     <header className={styles.container}>
       <section className={styles.subContainer}>
-        <a href="#" className={styles.buttonContainer}>
+
+        <NavLink
+          to={{ pathname: `/` }}
+          className={styles.buttonContainer}
+          activeClassName={styles.activeButtonContainer}
+        >
           <BurgerIcon type="secondary" />
           <span className="pl-2 text text_type_main-default text_color_inactive">
             Конструктор
           </span>
-        </a>
+        </NavLink>
+
         <a href="#" className={styles.buttonContainer}>
           <ListIcon type="secondary" />
           <span className=" pl-2 text text_type_main-default text_color_inactive">
