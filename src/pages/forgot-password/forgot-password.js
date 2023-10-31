@@ -1,5 +1,7 @@
 import {React, useState} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import {useDispatch} from "react-redux";
+import {forgotPassword} from "../../services/user-actions/actions";
 
 import styles from './forgot-password.module.css';
 import {
@@ -11,16 +13,23 @@ import {
   
 export function ForgotPasswordPage() {
 
-  const [email, setEmail] = useState('bob@example.com')
+  const [email, setEmail] = useState('')
 
   const onChangeEmail = e => {
     setEmail(e.target.value)
+  }
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const forgot= (event) => {
+      event.preventDefault();
+      dispatch(forgotPassword(email, navigate))
   }
   
 
   return (
     <section className={styles.container}>
-      <form className={styles.form}>
+      <form onSubmit={forgot} className={styles.form}>
         <h1 className={styles.heading}>Восставновление пароля</h1>
        
         <EmailInput
@@ -30,7 +39,7 @@ export function ForgotPasswordPage() {
           isIcon={false}
         />
        
-        <Button htmlType="button" type="primary" size="medium">
+        <Button htmlType="submit" type="primary" size="medium">
           Восстановить
         </Button>
         <div className={styles.linkRow}>

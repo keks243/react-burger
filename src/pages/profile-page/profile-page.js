@@ -7,17 +7,19 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
-// import { getUserDate } from "../../services/users/selectors";
+import { getUserDate } from "../../services/user-actions/selectors";
 import { NavLink, useNavigate } from "react-router-dom";
-// import { patchUser, postLogoutUser } from "../../services/users/actions";
-
+import { patchUser, userLogout } from "../../services/user-actions/actions";
 export function ProfilePage() {
-  //   const user = useSelector(getUserDate);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isInputDisabled, setIsInputDisabled] = useState(true);
+  const [isInputEmailDisabled, setIsInputEmailDisabled] = useState(true);
   const [isInputActive, setIsInputActive] = useState(false);
+  const [isInputEmailActive, setIsInputEmailActive] = useState(false);
+
+  const user = useSelector(getUserDate);
 
   const nameRefInput = useRef(null);
 
@@ -25,9 +27,17 @@ export function ProfilePage() {
 
   const navigate = useNavigate();
 
-  const handlePostRequestUpdateUser = (event) => {
+  const updateUser = (event) => {
     event.preventDefault();
-    // dispatch(patchUser(name, email, password, setIsInputDisabled));
+    dispatch(
+      patchUser(
+        name,
+        email,
+        password,
+        setIsInputDisabled,
+        setIsInputEmailDisabled
+      )
+    );
   };
 
   useEffect(() => {
@@ -36,31 +46,36 @@ export function ProfilePage() {
     }
   }, [isInputDisabled]);
 
-  const handleOnIconClick = () => {
+  const iconClick = () => {
     setIsInputDisabled(!isInputDisabled);
+  };
+
+  const iconClickEmail = () => {
+    setIsInputEmailDisabled(!isInputEmailDisabled);
   };
   const handleDefaultValue = () => {
     setIsInputDisabled(true);
     setIsInputActive(false);
 
-    // setName(user.name);
-    // setEmail(user.email);
-  };
-  //   useEffect(() => {
-  //     if (user.name !== undefined) {
-  //       setName(user.name);
-  //       setEmail(user.email);
-  //     }
-  //   }, [user]);
+    setIsInputEmailDisabled(true);
+    setIsInputEmailActive(false);
 
-  const handleLogout = () => {
-    // dispatch(postLogoutUser(navigate));
+    setName(user.name);
+    setEmail(user.email);
+  };
+  useEffect(() => {
+    if (user.name !== undefined) {
+      setName(user.name);
+      setEmail(user.email);
+      console.log(user.name);
+    }
+  }, [user]);
+
+  const logout = () => {
+    dispatch(userLogout(navigate));
   };
 
-  const inputChangeValue = (e) => {
-    setIsInputActive(true);
-    console.log(e.target.value);
-  };
+
 
   return (
     <div className={styles.container}>
@@ -80,7 +95,7 @@ export function ProfilePage() {
               </span>
             )}
           </NavLink>
-          <button className={styles.exitButton} onClick={handleLogout}>
+          <button className={styles.exitButton} onClick={logout}>
             Выход
           </button>
         </div>
@@ -90,24 +105,26 @@ export function ProfilePage() {
           <span className={styles.info}>изменить свои персональные данные</span>
         </div>
       </div>
-      <form onSubmit={handlePostRequestUpdateUser} className={styles.form}>
+      <form onSubmit={updateUser} className={styles.form}>
         <div className={styles.inputsContainer}>
           <Input
             value={name}
             type={"text"}
             disabled={isInputDisabled}
             icon="EditIcon"
-            onIconClick={handleOnIconClick}
+            onIconClick={iconClick}
             onChange={(e) => setName(e.target.value)}
             placeholder="Имя"
             ref={nameRefInput}
           />
 
           <EmailInput
-            onChange={(e) => inputChangeValue(e)}
             value={email}
             name={"email"}
             isIcon={true}
+            disabled={isInputEmailDisabled}
+            onIconClick={iconClickEmail}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <PasswordInput
             onChange={(e) => setPassword(e.target.value)}

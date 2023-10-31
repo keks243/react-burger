@@ -1,6 +1,7 @@
 import {React, useState} from 'react';
-import { Link } from 'react-router-dom';
-
+import {Link, useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {userCreate} from "../../services/user-actions/actions";
 import styles from './register-page.module.css';
 import {
   Button,
@@ -26,11 +27,19 @@ export function RegisterPage() {
     setPass(e.target.value)
   }
   
+  const navigate = useNavigate()
 
+  const dispatch = useDispatch()
+  const register = (event) => {
+      event.preventDefault();
+      console.log('register')
+      console.log(event)
+      dispatch(userCreate(email, pass, name, navigate))
+  }
 
   return (
     <section className={styles.container}>
-      <form className={styles.form}>
+      <form onSubmit={register} className={styles.form}>
         <h1 className={styles.heading}>Регистрация</h1>
         <Input 
           onChange={onChangeName}
@@ -50,7 +59,7 @@ export function RegisterPage() {
           name={'password'}
           extraClass="mb-2"
         />
-        <Button htmlType="button" type="primary" size="medium">
+        <Button htmlType="submit" type="primary" size="medium">
           Зарегистрироваться
         </Button>
         <div className={styles.linkRow}>

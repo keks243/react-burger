@@ -4,7 +4,11 @@ import { nanoid } from "nanoid";
 import { useState, useEffect, useContext, useReducer } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
-import { SORT_INGREDIENT, DELETE_INGREDIENT } from "../../services/constructor/actions.js";
+import { getCookie } from "../../coockie.js";
+import {
+  SORT_INGREDIENT,
+  DELETE_INGREDIENT,
+} from "../../services/constructor/actions.js";
 import { addIngredient } from "../../services/constructor/actions.js";
 import BurgerConstructorMain from "../burger-constructor-main/burger-constructor-main.js";
 import { postOrderIngredients } from "../../services/constructor/actions.js";
@@ -20,16 +24,14 @@ import {
 import { getConstructorIngredients } from "../../services/constructor/selectors.js";
 import { deleteIngredient } from "../../services/constructor/actions.js";
 
-
 function BurgerConstructor() {
-  const [open, setOpen] = useState(false)  
-  const URL = "https://norma.nomoreparties.space/api/orders";
-  const number = useSelector(state => state.ingredientsСonstructor.number)
+  const [open, setOpen] = useState(false);
 
+  const number = useSelector((state) => state.ingredientsСonstructor.number);
+  let accessToken = getCookie("token");
   let bodyPost = [];
   let bun = { name: "", image: "", price: "" };
   let totalCost = 0;
-
 
   const dispatch = useDispatch();
 
@@ -67,27 +69,26 @@ function BurgerConstructor() {
   }
 
   const moveCard = (dragIndex, hoverIndex) => {
-    const arrayNoBun = data.filter(item => item.type !== 'bun')
-    const findBun = data.filter(item => item.type === 'bun')
-    const dragCard = arrayNoBun[dragIndex]
-    const newCards = [...arrayNoBun]
-    newCards.splice(dragIndex, 1)
-    newCards.splice(hoverIndex, 0, dragCard)
-    newCards.push(...findBun)
-    dispatch({type: SORT_INGREDIENT, payload: newCards})
-}
+    const arrayNoBun = data.filter((item) => item.type !== "bun");
+    const findBun = data.filter((item) => item.type === "bun");
+    const dragCard = arrayNoBun[dragIndex];
+    const newCards = [...arrayNoBun];
+    newCards.splice(dragIndex, 1);
+    newCards.splice(hoverIndex, 0, dragCard);
+    newCards.push(...findBun);
+    dispatch({ type: SORT_INGREDIENT, payload: newCards });
+  };
   let openModalStore = useSelector(getConstructorIngredients);
   function openModal() {
-    setOpen(openModalStore)
-    dispatch(postOrderIngredients(bodyPost, URL))
-    
+    if (accessToken) {
+      setOpen(openModalStore);
+      dispatch(postOrderIngredients(bodyPost));
+    }
   }
 
   function closeModal() {
-    setOpen(false)
+    setOpen(false);
   }
-
-  
 
   return (
     <section ref={dropRef} className={styles.container}>
@@ -95,7 +96,7 @@ function BurgerConstructor() {
         <ConstructorElement
           type="top"
           isLocked={true}
-          text={bun.name !== '' ? `${bun.name} (верх)` : ''}
+          text={bun.name !== "" ? `${bun.name} (верх)` : ""}
           price={bun.price}
           thumbnail={bun.image}
         />
@@ -116,7 +117,7 @@ function BurgerConstructor() {
         <ConstructorElement
           type="bottom"
           isLocked={true}
-          text={bun.name !== '' ? `${bun.name} (низ)` : ''}
+          text={bun.name !== "" ? `${bun.name} (низ)` : ""}
           price={bun.price}
           thumbnail={bun.image}
         />

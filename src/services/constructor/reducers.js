@@ -9,9 +9,10 @@ import {
     
 } from './actions.js';
 
+
 export const initialState = {
     constructorIngredients: [],
-    number: [],
+    number: null,
     isLoading: false,
     error: null,
     openModal: false

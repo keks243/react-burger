@@ -1,5 +1,7 @@
 import {React, useState} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import {useDispatch} from "react-redux";
+import {userAuthorize} from "../../services/user-actions/actions";
 
 import styles from './login-page.module.css';
 import {
@@ -11,8 +13,8 @@ import {
   
 export function LoginPage() {
 
-  const [email, setEmail] = useState('bob@example.com')
-  const [pass, setPass] = useState('123')
+  const [email, setEmail] = useState('')
+  const [pass, setPass] = useState('')
 
   const onChangeEmail = e => {
     setEmail(e.target.value)
@@ -21,11 +23,16 @@ export function LoginPage() {
     setPass(e.target.value)
   }
   
-
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const login = (event) => {
+      event.preventDefault();
+      dispatch(userAuthorize(email, pass, navigate))
+  }
 
   return (
     <section className={styles.container}>
-      <form className={styles.form}>
+      <form onSubmit={login} className={styles.form}>
         <h1 className={styles.heading}>Вход</h1>
         <EmailInput
           onChange={onChangeEmail}
@@ -39,7 +46,7 @@ export function LoginPage() {
           name={'password'}
           extraClass="mb-2"
         />
-        <Button htmlType="button" type="primary" size="medium">
+        <Button htmlType="submit" type="primary" size="medium">
           Вход
         </Button>
         <div className={styles.linkRow}>
