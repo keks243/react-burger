@@ -29,6 +29,8 @@ export const POST_RESET_PASSWORD_REQUEST = "POST_RESET_PASSWORD_REQUEST";
 export const POST_RESET_PASSWORD_SUCCESS = "POST_RESET_PASSWORD_SUCCESS";
 export const POST_RESET_PASSWORD_ERROR = "POST_RESET_PASSWORD_ERROR";
 
+export const GET_LAST_PUTH = "GET_LAST_PUTH";
+
 
 export const userCreate =
   (email, password, name, navigate) => (dispatch) => {

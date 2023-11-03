@@ -39,3 +39,11 @@
     text-decoration: none;
     color: #4C4CFF;
 }
+
+.buttonToForgot{
+    background: none;
+    color: #4C4CFF;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+}

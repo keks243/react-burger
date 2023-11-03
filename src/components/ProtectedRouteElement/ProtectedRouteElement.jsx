@@ -1,16 +1,20 @@
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate,  } from "react-router-dom";
+import { useSelector} from "react-redux";
 import { useEffect, useState } from "react";
 import { getCookie } from "../../coockie";
 import PropTypes from "prop-types";
 
-const ProtectedRouteElement = ({ onlyUnAuth, children, previousPathname }) => {
+const ProtectedRouteElement = ({ onlyUnAuth, children, onlyReset }) => {
   const location = useLocation();
 
   const isAuthChecked = true;
   const accessToken = getCookie("token");
   const navigate = useNavigate();
 
- 
+  const puth = useSelector((state) => state.usersInfo.lastPuth);
+  useEffect(() => {
+    console.log(puth);
+  }, [puth])
 
   if (!isAuthChecked) {
     return <div>Loading...</div>;
@@ -24,13 +28,11 @@ const ProtectedRouteElement = ({ onlyUnAuth, children, previousPathname }) => {
     return <Navigate to={"/login"} state={{ from: location }} />;
   }
 
-//   if(onlyUnAuth){
-//     if (previousPathname === "/forgot") {
-//         return <Navigate to="/password-reset" />;
-//     }else{
-//         return <Navigate to="/forgot" />;
-//     }
-//   }
+  if(onlyReset){
+    if (puth !== '/forgot') {
+        return <Navigate to="/forgot" />;
+    }
+  }
 
   return children;
 };
@@ -39,7 +41,6 @@ ProtectedRouteElement.propTypes = {
   onlyUnAuth: PropTypes.bool,
   onlyReset: PropTypes.bool,
   children: PropTypes.element.isRequired,
-  previousPathname: PropTypes.string
 };
 
 export default ProtectedRouteElement;

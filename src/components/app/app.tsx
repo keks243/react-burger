@@ -109,7 +109,7 @@ function App() {
           <Route
             path="/password-reset"
             element={
-              <ProtectedRouteElement onlyUnAuth previousPathname={previousPathname}  >
+              <ProtectedRouteElement onlyReset onlyUnAuth>
                 <ResetPasswordPage />
               </ProtectedRouteElement>
             }

@@ -20,6 +20,7 @@ import {
   POST_RESET_PASSWORD_REQUEST,
   POST_RESET_PASSWORD_SUCCESS,
   POST_RESET_PASSWORD_ERROR,
+  GET_LAST_PUTH
 } from "./actions";
 
 const initialState = {
@@ -46,6 +47,8 @@ const initialState = {
 
   isPostResetPasswordUserLoading: false,
   isPostResetPasswordUserError: false,
+
+  lastPuth: ''
 };
 
 export default (state = initialState, action) => {
@@ -200,6 +203,9 @@ export default (state = initialState, action) => {
         isPostResetPasswordUserLoading: false,
         isPostResetPasswordUserError: true,
       };
+    }
+    case GET_LAST_PUTH: {
+      return {...state, lastPuth: action.payload}
     }
     default:
       return state;
