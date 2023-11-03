@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import styles from "./app.module.css";
-import { Route, Routes, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import { LoginPage } from "../../pages/login-page/login-page.js";
 import { RegisterPage } from "../../pages/register-page/register-page.js";
 import IngredientDetails from "../ingredient-details/ingredient-details";
@@ -21,15 +21,18 @@ import IngredientPage from "../../pages/ingredient-page/ingredient-page";
 
 function App() {
   const { isModalOpen, openModal, closeModal } = useModal();
+  const [previousPathname, setPreviousPathname] = useState('');
   const dispatch: any = useDispatch();
   const navigate = useNavigate();
   let accessToken = getCookie("token");
+  
   let location = useLocation();
   let state = location.state as { backgroundLocation?: Location };
   useEffect(() => {
+    dispatch(getIngredients());
     if (accessToken) {
       dispatch(getUser());
-      dispatch(getIngredients());
+      
     }
   }, [dispatch]);
   
@@ -52,9 +55,13 @@ function App() {
     openModal();
   }, [date]);
 
+
+
   useEffect(() => {
-    console.log(date);
-  }, [date]);
+    
+    console.log(previousPathname);
+    
+  }, [previousPathname]);
 
   return (
     <section className={styles.App}>
@@ -63,10 +70,8 @@ function App() {
         <Routes location={state?.backgroundLocation || location}>
           <Route
             path="/"
-            element={
-              <ProtectedRouteElement>
-                <MainPage />
-              </ProtectedRouteElement>
+            element={ 
+              <MainPage />
             }
           />
           <Route
@@ -104,7 +109,7 @@ function App() {
           <Route
             path="/password-reset"
             element={
-              <ProtectedRouteElement onlyUnAuth>
+              <ProtectedRouteElement onlyUnAuth previousPathname={previousPathname}  >
                 <ResetPasswordPage />
               </ProtectedRouteElement>
             }

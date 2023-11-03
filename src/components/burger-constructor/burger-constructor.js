@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { nanoid } from "nanoid";
 import { useState, useEffect, useContext, useReducer } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import { useModal } from "../../hoocks/useModal";
@@ -26,7 +27,7 @@ import { deleteIngredient } from "../../services/constructor/actions.js";
 
 function BurgerConstructor() {
   const { isModalOpen, openModal, closeModal } = useModal();
-
+  const navigate = useNavigate(); 
   const number = useSelector((state) => state.ingredientsСonstructor.number);
   let accessToken = getCookie("token");
   let bodyPost = [];
@@ -82,6 +83,8 @@ function BurgerConstructor() {
     if (accessToken) {
       openModal();
       dispatch(postOrderIngredients(bodyPost));
+    }else{
+      navigate('/login')
     }
   }
 

@@ -13,9 +13,9 @@ import {
   
 export function RegisterPage() {
 
-  const [name, setName] = useState('bob')
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('bob@example.com')
-  const [pass, setPass] = useState('123')
+  const [pass, setPass] = useState('')
 
   const onChangeName = e => {
     setName(e.target.value)

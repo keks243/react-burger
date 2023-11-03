@@ -67,7 +67,7 @@ function BurgerIngredients() {
       setCurrent("bun");
     }
   }, [inViewBun]);
-  function getItem(item: any) {
+  function getItem(item) {
     getIngredient(item);
   }
 
