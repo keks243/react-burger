@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import Modal from "../modal/modal";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import PropTypesItem from "../proptypes/proptypes-item";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Card from "../card/card";
@@ -15,18 +16,24 @@ import { GET_SELECT_INGREDIENT } from "../../services/ingredients/actions.js";
 function BurgerIngredients() {
   const [current, setCurrent] = useState();
   const [open, setOpen] = useState(false);
-  const data = useSelector((state) => state.ingredients.ingredients);
-  const ingredient = useSelector((state) => state.ingredients.ingredient);
-  const types = ["bun", "main", "sauce"];
-  const typesRu = ["Булки", "Начинки", "Соусы"];
+  const [date, setDate] = useState([]);
 
   const constructorIngredients = useSelector(getConstructorIngredients);
 
   const dispatch = useDispatch();
-
+  // @ts-ignore
   const getIngredient = (ingredientObj) => {
     dispatch({ type: GET_SELECT_INGREDIENT, payload: ingredientObj });
   };
+  // @ts-ignore
+  const data = useSelector((state) => state.ingredients.ingredients);
+
+
+  useEffect(() => {
+    console.log(date);
+  }, [date]);
+  const types = ["bun", "main", "sauce"];
+  const typesRu = ["Булки", "Начинки", "Соусы"];
 
   const [bun, inViewBun] = useInView({
     threshold: 0.6,
@@ -42,24 +49,25 @@ function BurgerIngredients() {
 
   useEffect(() => {
     if (inViewMain) {
+      // @ts-ignore
       setCurrent("main");
     }
   }, [inViewMain]);
 
   useEffect(() => {
     if (inViewSauce) {
+      // @ts-ignore
       setCurrent("sauce");
     }
   }, [inViewSauce]);
 
   useEffect(() => {
     if (inViewBun) {
+      // @ts-ignore
       setCurrent("bun");
     }
   }, [inViewBun]);
-
-  function getItem(item) {
-    setOpen(true);
+  function getItem(item: any) {
     getIngredient(item);
   }
 
@@ -76,6 +84,7 @@ function BurgerIngredients() {
             key={index}
             active={current === item}
             value={item}
+            // @ts-ignore
             onClick={setCurrent}
           >
             {typesRu[index]}
@@ -93,7 +102,9 @@ function BurgerIngredients() {
 
           <section className={styles.itemSubContainer}>
             {data
+              // @ts-ignore
               .filter((ingredient) => ingredient.type === "bun")
+              // @ts-ignore
               .map((item, indexItems) => (
                 <section key={indexItems} onClick={() => getItem(item)}>
                   <Card item={item} />
@@ -112,7 +123,9 @@ function BurgerIngredients() {
 
           <section className={styles.itemSubContainer}>
             {data
+              // @ts-ignore
               .filter((ingredient) => ingredient.type === "main")
+              // @ts-ignore
               .map((item, indexItems) => (
                 <section key={indexItems} onClick={() => getItem(item)}>
                   <Card item={item} />
@@ -130,7 +143,9 @@ function BurgerIngredients() {
 
           <section className={styles.itemSubContainer}>
             {data
+              // @ts-ignore
               .filter((ingredient) => ingredient.type === "sauce")
+              // @ts-ignore
               .map((item, indexItems) => (
                 <section key={indexItems} onClick={() => getItem(item)}>
                   <Card item={item} />
@@ -138,11 +153,6 @@ function BurgerIngredients() {
               ))}
           </section>
         </section>
-        {open && (
-          <Modal closeModal={() => setOpen(false)} title="Детали ингредиента">
-            <IngredientDetails item={ingredient} />
-          </Modal>
-        )}
       </section>
     </section>
   );

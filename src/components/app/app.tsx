@@ -1,55 +1,66 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import styles from "./app.module.css";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate, useParams } from "react-router-dom";
 import { LoginPage } from "../../pages/login-page/login-page.js";
 import { RegisterPage } from "../../pages/register-page/register-page.js";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 import { ForgotPasswordPage } from "../../pages/forgot-password/forgot-password";
 import { ResetPasswordPage } from "../../pages/reset-password/reset-password";
 import { ProfilePage } from "../../pages/profile-page/profile-page";
 import { getCookie } from "../../coockie";
+import Modal from "../modal/modal";
 import ProtectedRouteElement from "../ProtectedRouteElement/ProtectedRouteElement";
 import { getUser } from "../../services/user-actions/actions";
 import { MainPage } from "../../pages/main-page/main-page.js";
 import AppHeader from "../app-header/app-header.js";
 import { useDispatch, useSelector } from "react-redux";
+import { useModal } from "../../hoocks/useModal";
 import { getIngredients } from "../../services/ingredients/actions.js";
+import IngredientPage from "../../pages/ingredient-page/ingredient-page";
 
 function App() {
-  const [date, setDate] = useState({});
-  const ingredient = useSelector((state) => state.ingredients.ingredient);
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const dispatch: any = useDispatch();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  let location = useLocation();
   let accessToken = getCookie("token");
-
-
+  let location = useLocation();
+  let state = location.state as { backgroundLocation?: Location };
   useEffect(() => {
-    
     if (accessToken) {
       dispatch(getUser());
       dispatch(getIngredients());
     }
   }, [dispatch]);
+  
+  // @ts-ignore
+  const ingredient = useSelector((state) => state.ingredients.ingredients);
+  const [date, setDate] = useState({});
+  useEffect(()=> {
+      if (ingredient.length != 0) {
+          // @ts-ignore
+          setDate(ingredient.find(item => item._id === location.pathname.split('/')[2]))
+      }
+  }, [ingredient, location])
 
+  const handleCloseModal = () => {
+    navigate("/");
+    closeModal();
+  };
 
-
-  // let state = location.state as { backgroundLocation?: Location };
-
- 
   useEffect(() => {
-    if (ingredient.length > 0) {
-      setDate(
-        ingredient.find((item) => item._id === location.pathname.split("/")[2])
-      );
-    }
-  }, [ingredient, location]);
+    openModal();
+  }, [date]);
+
+  useEffect(() => {
+    console.log(date);
+  }, [date]);
 
   return (
     <section className={styles.App}>
       <AppHeader />
       <main className={styles.appContainer}>
-        <Routes>
+        <Routes location={state?.backgroundLocation || location}>
           <Route
             path="/"
             element={
@@ -98,7 +109,33 @@ function App() {
               </ProtectedRouteElement>
             }
           />
+          <Route path={`ingredients/:id`} element={<IngredientPage />} />
         </Routes>
+        {state?.backgroundLocation && (
+          <Routes>
+            <Route
+              path='ingredients/:id'
+              element={
+                <div>
+                  {date != undefined && (
+                    <>
+                      {isModalOpen && (
+                        // @ts-ignore
+                        <Modal
+                          setActive={handleCloseModal}
+                          // @ts-ignore
+                          title="Детали ингредиента"
+                        >
+                          <IngredientDetails item={date} />
+                        </Modal>
+                      )}
+                    </>
+                  )}
+                </div>
+              }
+            />
+          </Routes>
+        )}
       </main>
     </section>
   );

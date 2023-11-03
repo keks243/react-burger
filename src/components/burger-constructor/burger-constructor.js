@@ -4,6 +4,7 @@ import { nanoid } from "nanoid";
 import { useState, useEffect, useContext, useReducer } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
+import { useModal } from "../../hoocks/useModal";
 import { getCookie } from "../../coockie.js";
 import {
   SORT_INGREDIENT,
@@ -14,7 +15,6 @@ import BurgerConstructorMain from "../burger-constructor-main/burger-constructor
 import { postOrderIngredients } from "../../services/constructor/actions.js";
 import styles from "./burger-constructor.module.css";
 import OrdertDetails from "../order-details/order-details";
-import PropTypesItem from "../proptypes/proptypes-item";
 import Modal from "../modal/modal";
 import {
   ConstructorElement,
@@ -25,7 +25,7 @@ import { getConstructorIngredients } from "../../services/constructor/selectors.
 import { deleteIngredient } from "../../services/constructor/actions.js";
 
 function BurgerConstructor() {
-  const [open, setOpen] = useState(false);
+  const { isModalOpen, openModal, closeModal } = useModal();
 
   const number = useSelector((state) => state.ingredientsСonstructor.number);
   let accessToken = getCookie("token");
@@ -78,16 +78,11 @@ function BurgerConstructor() {
     newCards.push(...findBun);
     dispatch({ type: SORT_INGREDIENT, payload: newCards });
   };
-  let openModalStore = useSelector(getConstructorIngredients);
-  function openModal() {
+  function openModalConstructor() {
     if (accessToken) {
-      setOpen(openModalStore);
+      openModal();
       dispatch(postOrderIngredients(bodyPost));
     }
-  }
-
-  function closeModal() {
-    setOpen(false);
   }
 
   return (
@@ -132,13 +127,13 @@ function BurgerConstructor() {
           htmlType="button"
           type="primary"
           size="medium"
-          onClick={openModal}
+          onClick={openModalConstructor}
         >
           Оформить заказ
         </Button>
       </section>
-      {open && (
-        <Modal closeModal={() => closeModal()}>
+      {isModalOpen && (
+        <Modal setActive={closeModal}>
           <OrdertDetails number={number} />
         </Modal>
       )}

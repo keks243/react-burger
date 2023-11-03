@@ -2,6 +2,11 @@
     width: 290px;
     padding-bottom: 32px;
     padding-top: 24px;
+    text-decoration: none ;
+}
+
+span {
+    color: white
 }
 
 .priceContainer{
@@ -10,9 +15,13 @@
     justify-content: center;
     column-gap: 12px;
     padding-bottom: 4px;
+    text-decoration: none ;
 }
 
 .counter{
     position: relative;
-    
+    text-decoration: none ;
+}
+.link{
+    text-decoration: none ;
 }

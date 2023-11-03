@@ -20,7 +20,7 @@ const Modal = (props) => {
 
   const escape = (event) => {
     if (event.key === "Escape") {
-      props.closeModal();
+      handleCloseModal();
     }
   };
 
@@ -31,6 +31,10 @@ const Modal = (props) => {
     };
   }, []);
 
+  const handleCloseModal = () => {
+    props.setActive(false)
+}
+
   return createPortal(
     <ModalOverlay onClose={props.closeModal}>
       <section
@@ -39,7 +43,7 @@ const Modal = (props) => {
       >
         <section className={styles.modalHeader}>
           <h2 className="text text_type_main-large">{props.title}</h2>
-          <button className={styles.close} onClick={props.closeModal}>
+          <button className={styles.close} onClick={handleCloseModal}>
             <CloseIcon type="primary" />
           </button>
         </section>
@@ -51,8 +55,9 @@ const Modal = (props) => {
 };
 
 Modal.propTypes = {
+  setActive: PropTypes.func.isRequired,
   children: PropTypes.element,
-  closeModal: PropTypes.func.isRequired,
+  
 };
 
 export default Modal;
