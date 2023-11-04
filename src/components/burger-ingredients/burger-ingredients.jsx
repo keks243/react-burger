@@ -16,7 +16,7 @@ import { GET_SELECT_INGREDIENT } from "../../services/ingredients/actions.js";
 function BurgerIngredients() {
   const [current, setCurrent] = useState();
   const [open, setOpen] = useState(false);
-  const [date, setDate] = useState([]);
+ 
 
   const constructorIngredients = useSelector(getConstructorIngredients);
 
@@ -28,10 +28,6 @@ function BurgerIngredients() {
   // @ts-ignore
   const data = useSelector((state) => state.ingredients.ingredients);
 
-
-  useEffect(() => {
-    console.log(date);
-  }, [date]);
   const types = ["bun", "main", "sauce"];
   const typesRu = ["Булки", "Начинки", "Соусы"];
 
@@ -95,7 +91,6 @@ function BurgerIngredients() {
         <section ref={bun} className={styles.itemContainer}>
           <h2
             className="text text_type_main-medium"
-            style={{ textAlign: "start" }}
           >
             Булки
           </h2>
@@ -105,8 +100,8 @@ function BurgerIngredients() {
               // @ts-ignore
               .filter((ingredient) => ingredient.type === "bun")
               // @ts-ignore
-              .map((item, indexItems) => (
-                <section key={indexItems} onClick={() => getItem(item)}>
+              .map((item) => (
+                <section key={item._id} onClick={() => getItem(item)}>
                   <Card item={item} />
                 </section>
               ))}
@@ -116,7 +111,6 @@ function BurgerIngredients() {
         <section ref={main} className={styles.itemContainer}>
           <h2
             className="text text_type_main-medium"
-            style={{ textAlign: "start" }}
           >
             Начинки
           </h2>
@@ -126,8 +120,8 @@ function BurgerIngredients() {
               // @ts-ignore
               .filter((ingredient) => ingredient.type === "main")
               // @ts-ignore
-              .map((item, indexItems) => (
-                <section key={indexItems} onClick={() => getItem(item)}>
+              .map((item) => (
+                <section key={item._id} onClick={() => getItem(item)}>
                   <Card item={item} />
                 </section>
               ))}
@@ -136,7 +130,7 @@ function BurgerIngredients() {
         <section ref={sauce} className={styles.itemContainer}>
           <h2
             className="text text_type_main-medium"
-            style={{ textAlign: "start" }}
+            
           >
             Соусы
           </h2>
@@ -146,8 +140,8 @@ function BurgerIngredients() {
               // @ts-ignore
               .filter((ingredient) => ingredient.type === "sauce")
               // @ts-ignore
-              .map((item, indexItems) => (
-                <section key={indexItems} onClick={() => getItem(item)}>
+              .map((item) => (
+                <section key={item._id} onClick={() => getItem(item)}>
                   <Card item={item} />
                 </section>
               ))}

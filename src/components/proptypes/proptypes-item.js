@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-const PropTypesItem = PropTypes.shape({
+const PropTypesItem = {
   _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
@@ -13,6 +13,6 @@ const PropTypesItem = PropTypes.shape({
   image_mobile: PropTypes.string.isRequired,
   image_large: PropTypes.string.isRequired,
   __v: PropTypes.number.isRequired,
-});
+};
 
 export default PropTypesItem;

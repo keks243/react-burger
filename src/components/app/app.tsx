@@ -15,13 +15,12 @@ import { getUser } from "../../services/user-actions/actions";
 import { MainPage } from "../../pages/main-page/main-page.js";
 import AppHeader from "../app-header/app-header.js";
 import { useDispatch, useSelector } from "react-redux";
-import { useModal } from "../../hoocks/useModal";
+import { useModal } from "../../hooks/useModal";
 import { getIngredients } from "../../services/ingredients/actions.js";
 import IngredientPage from "../../pages/ingredient-page/ingredient-page";
 
 function App() {
   const { isModalOpen, openModal, closeModal } = useModal();
-  const [previousPathname, setPreviousPathname] = useState('');
   const dispatch: any = useDispatch();
   const navigate = useNavigate();
   let accessToken = getCookie("token");
@@ -37,14 +36,8 @@ function App() {
   }, [dispatch]);
   
   // @ts-ignore
-  const ingredient = useSelector((state) => state.ingredients.ingredients);
-  const [date, setDate] = useState({});
-  useEffect(()=> {
-      if (ingredient.length != 0) {
-          // @ts-ignore
-          setDate(ingredient.find(item => item._id === location.pathname.split('/')[2]))
-      }
-  }, [ingredient, location])
+  const ingredient = useSelector((state) => state.ingredients.ingredient);
+ 
 
   const handleCloseModal = () => {
     navigate("/");
@@ -53,15 +46,8 @@ function App() {
 
   useEffect(() => {
     openModal();
-  }, [date]);
+  }, [ingredient]);
 
-
-
-  useEffect(() => {
-    
-    console.log(previousPathname);
-    
-  }, [previousPathname]);
 
   return (
     <section className={styles.App}>
@@ -122,18 +108,16 @@ function App() {
               path='ingredients/:id'
               element={
                 <div>
-                  {date != undefined && (
-                    <>
-                      {isModalOpen && (
+                  {ingredient != undefined && (
+                    <>   
+                      // @ts-ignore
+                      <Modal
+                        setActive={handleCloseModal}
                         // @ts-ignore
-                        <Modal
-                          setActive={handleCloseModal}
-                          // @ts-ignore
-                          title="Детали ингредиента"
-                        >
-                          <IngredientDetails item={date} />
-                        </Modal>
-                      )}
+                        title="Детали ингредиента"
+                      >
+                        <IngredientDetails  />
+                      </Modal>
                     </>
                   )}
                 </div>

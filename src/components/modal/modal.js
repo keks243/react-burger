@@ -36,7 +36,7 @@ const Modal = (props) => {
 }
 
   return createPortal(
-    <ModalOverlay onClose={props.closeModal}>
+    <ModalOverlay onClose={handleCloseModal}>
       <section
         className={styles.container}
         onClick={(event) => event.stopPropagation()}

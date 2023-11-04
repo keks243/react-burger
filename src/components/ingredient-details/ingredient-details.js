@@ -1,14 +1,27 @@
 import React from "react";
-import PropTypes from "prop-types";
-import PropTypesItem from "../proptypes/proptypes-item";
+import { useEffect, useState } from "react";
 import styles from "./ingredient-details.module.css";
+import { useLocation, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const IngredientDetails = ({ item }) => {
+const IngredientDetails = () => {
+  let itemId  = useParams();
+  const location = useLocation();
+  const ingredient = useSelector((state) => state.ingredients.ingredients);
+  const [data, setData] = useState({});
+  
+  useEffect(()=> {
+      if (ingredient.length != 0) {
+        setData(ingredient.find(item => item._id === itemId.id))
+      }
+  }, [ingredient, location])
+
+
   return (
     <section className={styles.container}>
-      <img src={item.image} />
+      <img src={data.image} alt="dataImage"/>
       <span className={`text text_type_main-medium ${styles.item}`}>
-        {item.name}
+        {data.name}
       </span>
       <section className={styles.downContainer}>
         <section className={styles.detail}>
@@ -16,7 +29,7 @@ const IngredientDetails = ({ item }) => {
             Каллории,ккал
           </span>
           <span className="text text_type_digits-default text_color_inactive">
-            {item.calories}
+            {data.calories}
           </span>
         </section>
         <section className={styles.detail}>
@@ -24,7 +37,7 @@ const IngredientDetails = ({ item }) => {
             Бекли,г
           </span>
           <span className="text text_type_digits-default text_color_inactive">
-            {item.calories}
+            {data.calories}
           </span>
         </section>
         <section className={styles.detail}>
@@ -32,7 +45,7 @@ const IngredientDetails = ({ item }) => {
             Жиры,г
           </span>
           <span className="text text_type_digits-default text_color_inactive">
-            {item.calories}
+            {data.calories}
           </span>
         </section>
         <section className={styles.detail}>
@@ -40,7 +53,7 @@ const IngredientDetails = ({ item }) => {
             Углеводы,г
           </span>
           <span className="text text_type_digits-default text_color_inactive">
-            {item.calories}
+            {data.calories}
           </span>
         </section>
       </section>
@@ -48,6 +61,5 @@ const IngredientDetails = ({ item }) => {
   );
 };
 
-IngredientDetails.propTypes = PropTypesItem.isRequired;
 
 export default IngredientDetails;

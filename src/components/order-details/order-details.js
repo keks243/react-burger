@@ -13,7 +13,7 @@ const OrdertDetails = ({number}) => {
        {number == undefined ? '...' : number}
       </h2>
       <span className="text text_type_main-medium">идентификатор заказа</span>
-      <img src={done}></img>
+      <img src={done} alt="orderIamge"></img>
       <span className="text text_type_main-default">
         Ваш заказ начали готовить
       </span>

@@ -5,7 +5,7 @@ import { useState, useEffect, useContext, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
-import { useModal } from "../../hoocks/useModal";
+import { useModal } from "../../hooks/useModal";
 import { getCookie } from "../../coockie.js";
 import {
   SORT_INGREDIENT,

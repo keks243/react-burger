@@ -47,7 +47,7 @@ function Card({ item }) {
             />
           </section>
         )}
-        <img  src={item.image} />
+        <img  src={item.image} alt="cardImage"/>
         <section className={styles.priceContainer}>
           <span className="text text_type_main-medium">{item.price}</span>
           <CurrencyIcon type="primary" />
@@ -58,6 +58,8 @@ function Card({ item }) {
   );
 }
 
-Card.propTypes = PropTypesItem.isRequired;
+Card.propTypes = {
+  item: PropTypes.shape(PropTypesItem)
+};
 
 export default Card;
