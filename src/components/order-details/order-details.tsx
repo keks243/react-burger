@@ -1,16 +1,20 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { FC } from "react";
 import styles from "./order-details.module.css";
 import done from "../../images/done.png";
 import { getConstructorIngredients } from "../../services/constructor/selectors";
 import { useDispatch, useSelector } from "react-redux";
 
-const OrdertDetails = ({number}) => {
+interface OrdertDetailsProps {
+  number: unknown;
+}
+
+const OrdertDetails: FC<OrdertDetailsProps> = ({ number }) => {
+  const orderNumber = typeof number === "number" ? number : null;
 
   return (
     <section className={styles.container}>
       <h2 className={`text text_type_digits-large pt-9 ${styles.number}`}>
-       {number == undefined ? '...' : number}
+        {orderNumber === null ? "..." : orderNumber}
       </h2>
       <span className="text text_type_main-medium">идентификатор заказа</span>
       <img src={done} alt="orderIamge"></img>
@@ -22,10 +26,6 @@ const OrdertDetails = ({number}) => {
       </span>
     </section>
   );
-};
-
-OrdertDetails.propTypes = {
-  number: PropTypes.number,
 };
 
 export default OrdertDetails;

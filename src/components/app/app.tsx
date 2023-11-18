@@ -13,7 +13,7 @@ import Modal from "../modal/modal";
 import ProtectedRouteElement from "../ProtectedRouteElement/ProtectedRouteElement";
 import { getUser } from "../../services/user-actions/actions";
 import { MainPage } from "../../pages/main-page/main-page.js";
-import AppHeader from "../app-header/app-header.js";
+import AppHeader from "../app-header/app-header";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../hooks/useModal";
 import { getIngredients } from "../../services/ingredients/actions.js";

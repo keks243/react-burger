@@ -1,19 +1,18 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { nanoid } from "nanoid";
-import { useState, useEffect, useContext, useReducer } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { FC } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd";
+import { useNavigate } from "react-router-dom";
 import { useModal } from "../../hooks/useModal";
 import { getCookie } from "../../coockie.js";
 import {
   SORT_INGREDIENT,
   DELETE_INGREDIENT,
 } from "../../services/constructor/actions.js";
-import { addIngredient } from "../../services/constructor/actions.js";
+import {
+  addIngredient,
+  postOrderIngredients,
+} from "../../services/constructor/actions.js";
 import BurgerConstructorMain from "../burger-constructor-main/burger-constructor-main.js";
-import { postOrderIngredients } from "../../services/constructor/actions.js";
 import styles from "./burger-constructor.module.css";
 import OrdertDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
@@ -25,18 +24,36 @@ import {
 import { getConstructorIngredients } from "../../services/constructor/selectors.js";
 import { deleteIngredient } from "../../services/constructor/actions.js";
 
-function BurgerConstructor() {
+interface Ingredient {
+  _id: string;
+  uniqId: string;
+  type: string;
+  name: string;
+  image: string;
+  price: number;
+}
+
+const BurgerConstructor: FC = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
-  const navigate = useNavigate(); 
-  const number = useSelector((state) => state.ingredientsСonstructor.number);
+  const navigate = useNavigate();
+  const number = useSelector<any>(
+    (state) => state.ingredientsСonstructor.number
+  );
   let accessToken = getCookie("token");
-  let bodyPost = [];
-  let bun = { name: "", image: "", price: "" };
+  let bodyPost: string[] = [];
+  let bun: Ingredient = {
+    _id: "",
+    uniqId: "",
+    type: "",
+    name: "",
+    image: "",
+    price: 0,
+  };
   let totalCost = 0;
 
   const dispatch = useDispatch();
 
-  const onDelete = (ingredientObj) => {
+  const onDelete = (ingredientObj: Ingredient) => {
     dispatch(deleteIngredient(ingredientObj));
   };
 
@@ -44,12 +61,12 @@ function BurgerConstructor() {
 
   const [, dropRef] = useDrop({
     accept: "ingredient",
-    drop(ingredientObj) {
+    drop(ingredientObj: Ingredient) {
       dispatch(addIngredient(ingredientObj));
     },
   });
 
-  data.forEach((e) => {
+  data.forEach((e: Ingredient) => {
     if (e.type === "bun") {
       totalCost += e.price * 2;
     } else {
@@ -61,17 +78,20 @@ function BurgerConstructor() {
     bodyPost.push(data[index]._id);
   }
 
-  if (data.find((e) => e.type === "bun")) {
+  if (data.find((e: Ingredient) => e.type === "bun")) {
     bun = {
-      name: data.find((e) => e.type === "bun").name,
-      image: data.find((e) => e.type === "bun").image,
-      price: data.find((e) => e.type === "bun").price,
+      _id: data.find((e: Ingredient) => e.type === "bun")._id,
+      uniqId: data.find((e: Ingredient) => e.type === "bun").uniqId,
+      type: data.find((e: Ingredient) => e.type === "bun").type,
+      name: data.find((e: Ingredient) => e.type === "bun").name,
+      image: data.find((e: Ingredient) => e.type === "bun").image,
+      price: data.find((e: Ingredient) => e.type === "bun").price,
     };
   }
 
-  const moveCard = (dragIndex, hoverIndex) => {
-    const arrayNoBun = data.filter((item) => item.type !== "bun");
-    const findBun = data.filter((item) => item.type === "bun");
+  const moveCard = (dragIndex: number, hoverIndex: number) => {
+    const arrayNoBun = data.filter((item: Ingredient) => item.type !== "bun");
+    const findBun = data.filter((item: Ingredient) => item.type === "bun");
     const dragCard = arrayNoBun[dragIndex];
     const newCards = [...arrayNoBun];
     newCards.splice(dragIndex, 1);
@@ -79,14 +99,15 @@ function BurgerConstructor() {
     newCards.push(...findBun);
     dispatch({ type: SORT_INGREDIENT, payload: newCards });
   };
-  function openModalConstructor() {
+
+  const openModalConstructor = () => {
     if (accessToken) {
       openModal();
-      dispatch(postOrderIngredients(bodyPost));
-    }else{
-      navigate('/login')
+      dispatch<any>(postOrderIngredients(bodyPost));
+    } else {
+      navigate("/login");
     }
-  }
+  };
 
   return (
     <section ref={dropRef} className={styles.container}>
@@ -100,8 +121,8 @@ function BurgerConstructor() {
         />
         <section className={`custom-scroll ${styles.ingredients}`}>
           {data
-            .filter((ingredient) => ingredient.type !== "bun")
-            .map((item, index) => (
+            .filter((ingredient: Ingredient) => ingredient.type !== "bun")
+            .map((item: Ingredient, index: number) => (
               <BurgerConstructorMain
                 key={item.uniqId}
                 data={item}
@@ -142,6 +163,6 @@ function BurgerConstructor() {
       )}
     </section>
   );
-}
+};
 
 export default BurgerConstructor;
