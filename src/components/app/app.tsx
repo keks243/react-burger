@@ -2,17 +2,17 @@ import React from "react";
 import { useState, useEffect } from "react";
 import styles from "./app.module.css";
 import { Route, Routes, useLocation, useNavigate} from "react-router-dom";
-import { LoginPage } from "../../pages/login-page/login-page.js";
-import { RegisterPage } from "../../pages/register-page/register-page.js";
+import { LoginPage } from "../../pages/login-page/login-page";
+import { RegisterPage } from "../../pages/register-page/register-page";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import { ForgotPasswordPage } from "../../pages/forgot-password/forgot-password";
+import  ForgotPasswordPage  from "../../pages/forgot-password/forgot-password";
 import { ResetPasswordPage } from "../../pages/reset-password/reset-password";
 import { ProfilePage } from "../../pages/profile-page/profile-page";
 import { getCookie } from "../../coockie";
 import Modal from "../modal/modal";
 import ProtectedRouteElement from "../ProtectedRouteElement/ProtectedRouteElement";
 import { getUser } from "../../services/user-actions/actions";
-import { MainPage } from "../../pages/main-page/main-page.js";
+import { MainPage } from "../../pages/main-page/main-page";
 import AppHeader from "../app-header/app-header";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../hooks/useModal";
@@ -35,8 +35,7 @@ function App() {
     }
   }, [dispatch]);
   
-  // @ts-ignore
-  const ingredient = useSelector((state) => state.ingredients.ingredient);
+  const ingredient = useSelector<any>((state) => state.ingredients.ingredient);
  
 
   const handleCloseModal = () => {

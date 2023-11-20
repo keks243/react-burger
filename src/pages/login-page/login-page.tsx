@@ -1,6 +1,6 @@
-import { React, useEffect, useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, ChangeEvent, FormEvent } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { userAuthorize } from "../../services/user-actions/actions";
 import { GET_LAST_PUTH } from "../../services/user-actions/actions";
 
@@ -14,19 +14,19 @@ import {
 export function LoginPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [pass, setPass] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [pass, setPass] = useState<string>("");
 
-  const onChangeEmail = (e) => {
+  const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
-  const onChangePass = (e) => {
+  const onChangePass = (e: ChangeEvent<HTMLInputElement>) => {
     setPass(e.target.value);
   };
 
-  const login = (event) => {
+  const login = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(userAuthorize(email, pass, navigate));
+    dispatch<any>(userAuthorize(email, pass, navigate));
   };
 
   const toForgot = () => {

@@ -1,32 +1,42 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./ingredient-details.module.css";
 import { useLocation, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const IngredientDetails = () => {
-  let itemId  = useParams();
-  const location = useLocation();
-  const ingredient = useSelector((state) => state.ingredients.ingredients);
-  const [data, setData] = useState({});
-  
-  useEffect(()=> {
-      if (ingredient.length != 0) {
-        setData(ingredient.find(item => item._id === itemId.id))
-      }
-  }, [ingredient, location])
+interface Ingredient {
+  _id: string;
+  image: string;
+  name: string;
+  calories: number;
+}
 
+const IngredientDetails: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const location = useLocation();
+  const ingredient = useSelector((state: any) => state.ingredients.ingredients);
+  const [data, setData] = useState<Ingredient | undefined>(undefined);
+
+  useEffect(() => {
+    if (ingredient.length !== 0) {
+      const foundIngredient = ingredient.find((item: Ingredient) => item._id === id);
+      setData(foundIngredient);
+    }
+  }, [ingredient, location, id]);
+
+  if (!data) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <section className={styles.container}>
-      <img src={data.image} alt="dataImage"/>
+      <img src={data.image} alt="dataImage" />
       <span className={`text text_type_main-medium ${styles.item}`}>
         {data.name}
       </span>
       <section className={styles.downContainer}>
         <section className={styles.detail}>
           <span className="text text_type_main-default text_color_inactive">
-            Каллории,ккал
+            Каллории, ккал
           </span>
           <span className="text text_type_digits-default text_color_inactive">
             {data.calories}
@@ -34,7 +44,7 @@ const IngredientDetails = () => {
         </section>
         <section className={styles.detail}>
           <span className="text text_type_main-default text_color_inactive">
-            Бекли,г
+            Белки, г
           </span>
           <span className="text text_type_digits-default text_color_inactive">
             {data.calories}
@@ -42,7 +52,7 @@ const IngredientDetails = () => {
         </section>
         <section className={styles.detail}>
           <span className="text text_type_main-default text_color_inactive">
-            Жиры,г
+            Жиры, г
           </span>
           <span className="text text_type_digits-default text_color_inactive">
             {data.calories}
@@ -50,7 +60,7 @@ const IngredientDetails = () => {
         </section>
         <section className={styles.detail}>
           <span className="text text_type_main-default text_color_inactive">
-            Углеводы,г
+            Углеводы, г
           </span>
           <span className="text text_type_digits-default text_color_inactive">
             {data.calories}
@@ -60,6 +70,5 @@ const IngredientDetails = () => {
     </section>
   );
 };
-
 
 export default IngredientDetails;

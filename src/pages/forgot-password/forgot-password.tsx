@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { forgotPassword } from "../../services/user-actions/actions";
@@ -10,19 +10,22 @@ import {
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-export function ForgotPasswordPage() {
-  const [email, setEmail] = useState("");
-  const puth = useSelector((state) => state.usersInfo.lastPuth);
+interface ForgotPasswordPageProps {}
 
-  const onChangeEmail = (e) => {
+const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = () => {
+  const [email, setEmail] = useState<string>("");
+  const puth = useSelector((state:any) => state.usersInfo.lastPuth);
+
+  const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const forgot = (event) => {
+
+  const forgot = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(forgotPassword(email, navigate));
+    dispatch<any>(forgotPassword(email, navigate));
     dispatch({ type: GET_LAST_PUTH, payload: "/forgot" });
     navigate("/password-reset");
   };
@@ -51,6 +54,6 @@ export function ForgotPasswordPage() {
       </form>
     </section>
   );
-}
+};
 
 export default ForgotPasswordPage;

@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import PropTypes from "prop-types";
 import styles from "./burger-constructor-main.module.css";
 import {
   ConstructorElement,
@@ -7,10 +6,23 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag, useDrop } from "react-dnd";
 
-const BurgerConstructorMain = (props) => {
+interface BurgerConstructorMainProps {
+  data: {
+    name: string;
+    price: number;
+    image: string;
+    uniqId: string;
+  };
+  onDelete: (data: any) => void;
+  index: number;
+  moveCard: (dragIndex: number, hoverIndex: number, data: any) => void;
+  id: string;
+}
+
+const BurgerConstructorMain: React.FC<BurgerConstructorMainProps> = (props) => {
   const { data, onDelete, index, moveCard, id } = props;
 
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop({
     accept: "moveCardConstructor",
     collect(monitor) {
@@ -18,7 +30,7 @@ const BurgerConstructorMain = (props) => {
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item, monitor) {
+    hover(item: any, monitor) {
       if (!ref.current) {
         return;
       }
@@ -31,7 +43,7 @@ const BurgerConstructorMain = (props) => {
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = clientOffset!.y - hoverBoundingRect.top;
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
       }
@@ -42,12 +54,14 @@ const BurgerConstructorMain = (props) => {
       item.index = hoverIndex;
     },
   });
+
   const [, drag] = useDrag({
     type: "moveCardConstructor",
     item: () => {
       return { id, index };
     },
   });
+
   drag(drop(ref));
 
   return (
@@ -67,13 +81,5 @@ const BurgerConstructorMain = (props) => {
     </div>
   );
 };
-
-BurgerConstructorMain.propTypes = {
-    data: PropTypes.object.isRequired,
-    onDelete: PropTypes.func.isRequired,
-    index: PropTypes.number.isRequired,
-    moveCard: PropTypes.func.isRequired,
-    id: PropTypes.string.isRequired,
-  };
 
 export default BurgerConstructorMain;

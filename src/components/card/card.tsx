@@ -1,10 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styles from "./card.module.css";
-import PropTypesItem from "../proptypes/proptypes-item";
 import { useDrag } from "react-dnd";
 import { useSelector } from "react-redux";
-import { getConstructorIngredients } from "../../services/constructor/selectors.js";
+import { getConstructorIngredients } from "../../services/constructor/selectors";
 import { Link, useLocation } from "react-router-dom";
 
 import {
@@ -12,7 +10,16 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-function Card({ item }) {
+interface CardProps {
+  item: {
+    _id: string;
+    image: string;
+    price: number;
+    name: string;
+  };
+}
+
+function Card({ item }: CardProps) {
   const constructorIngredients = useSelector(getConstructorIngredients);
   let ingredientCounter = 0;
 
@@ -23,9 +30,10 @@ function Card({ item }) {
       isDrag: monitor.isDragging(),
     }),
   });
-  const location = useLocation()
+  const location = useLocation();
+
   for (let index = 0; index < constructorIngredients.length; index++) {
-    if (constructorIngredients[index]._id == item._id) {
+    if (constructorIngredients[index]._id === item._id) {
       ingredientCounter += 1;
     }
   }
@@ -38,7 +46,7 @@ function Card({ item }) {
       ref={dragRef}
     >
       <section className={styles.item}>
-        {ingredientCounter != 0 && (
+        {ingredientCounter !== 0 && (
           <section className={styles.counter}>
             <Counter
               count={ingredientCounter}
@@ -47,7 +55,7 @@ function Card({ item }) {
             />
           </section>
         )}
-        <img  src={item.image} alt="cardImage"/>
+        <img src={item.image} alt="cardImage" />
         <section className={styles.priceContainer}>
           <span className="text text_type_main-medium">{item.price}</span>
           <CurrencyIcon type="primary" />
@@ -57,9 +65,5 @@ function Card({ item }) {
     </Link>
   );
 }
-
-Card.propTypes = {
-  item: PropTypes.shape(PropTypesItem)
-};
 
 export default Card;

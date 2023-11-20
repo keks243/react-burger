@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd";
 import { useNavigate } from "react-router-dom";
 import { useModal } from "../../hooks/useModal";
-import { getCookie } from "../../coockie.js";
+import { getCookie } from "../../coockie";
 import {
   SORT_INGREDIENT,
   DELETE_INGREDIENT,
@@ -12,7 +12,7 @@ import {
   addIngredient,
   postOrderIngredients,
 } from "../../services/constructor/actions.js";
-import BurgerConstructorMain from "../burger-constructor-main/burger-constructor-main.js";
+import BurgerConstructorMain from "../burger-constructor-main/burger-constructor-main";
 import styles from "./burger-constructor.module.css";
 import OrdertDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
@@ -157,7 +157,7 @@ const BurgerConstructor: FC = () => {
         </Button>
       </section>
       {isModalOpen && (
-        <Modal setActive={closeModal}>
+        <Modal setActive={closeModal} title=''>
           <OrdertDetails number={number} />
         </Modal>
       )}

@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, ChangeEvent, FormEvent } from "react";
 import styles from "./profile-page.module.css";
 import {
   Button,
-  EmailInput,
+  EmailInput as BaseEmailInput,
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -10,27 +10,45 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserDate } from "../../services/user-actions/selectors";
 import { NavLink, useNavigate } from "react-router-dom";
 import { patchUser, userLogout } from "../../services/user-actions/actions";
+
+interface IUser {
+  name: string;
+  email: string;
+}
+
+interface EmailInputProps {
+  value: string;
+  name: string;
+  isIcon?: boolean;
+  disabled?: boolean;
+  onIconClick?: () => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
+const EmailInput: React.FC<EmailInputProps> = (props) => {
+  return <BaseEmailInput {...props} />;
+};
+
 export function ProfilePage() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isInputDisabled, setIsInputDisabled] = useState(true);
-  const [isInputEmailDisabled, setIsInputEmailDisabled] = useState(true);
-  const [isInputActive, setIsInputActive] = useState(false);
-  const [isInputEmailActive, setIsInputEmailActive] = useState(false);
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [isInputDisabled, setIsInputDisabled] = useState<boolean>(true);
+  const [isInputEmailDisabled, setIsInputEmailDisabled] = useState<boolean>(true);
+  const [isInputActive, setIsInputActive] = useState<boolean>(false);
+  const [isInputEmailActive, setIsInputEmailActive] = useState<boolean>(false);
 
-  const user = useSelector(getUserDate);
+  const user: IUser = useSelector(getUserDate);
 
-  const nameRefInput = useRef(null);
+  const nameRefInput = useRef<HTMLInputElement>(null);
 
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
-  const updateUser = (event) => {
+  const updateUser = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(
-      patchUser(
+    dispatch<any>(patchUser(
         name,
         email,
         password,
@@ -41,7 +59,7 @@ export function ProfilePage() {
   };
 
   useEffect(() => {
-    if (!isInputDisabled) {
+    if (!isInputDisabled && nameRefInput.current) {
       nameRefInput.current.focus();
     }
   }, [isInputDisabled]);
@@ -53,6 +71,7 @@ export function ProfilePage() {
   const iconClickEmail = () => {
     setIsInputEmailDisabled(!isInputEmailDisabled);
   };
+
   const handleDefaultValue = () => {
     setIsInputDisabled(true);
     setIsInputActive(false);
@@ -63,6 +82,7 @@ export function ProfilePage() {
     setName(user.name);
     setEmail(user.email);
   };
+
   useEffect(() => {
     if (user.name !== undefined) {
       setName(user.name);
@@ -72,10 +92,8 @@ export function ProfilePage() {
   }, [user]);
 
   const logout = () => {
-    dispatch(userLogout(navigate));
+    dispatch<any>(userLogout(navigate));
   };
-
-
 
   return (
     <div className={styles.container}>
