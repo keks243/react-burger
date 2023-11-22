@@ -109,10 +109,8 @@ function App() {
                 <div>
                   {ingredient != undefined && (
                     <>   
-                      // @ts-ignore
                       <Modal
                         setActive={handleCloseModal}
-                        // @ts-ignore
                         title="Детали ингредиента"
                       >
                         <IngredientDetails  />

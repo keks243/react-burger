@@ -5,7 +5,11 @@ export function getCookie(name:string) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export function setCookie(name:string, value:any, props:any = {}) {
+export function setCookie(
+  name: string,
+  value: string,
+  props: { [key: string]: string | number | Date | boolean } = {}
+) {
   props = {
       path: "/",
       ...props,
@@ -17,8 +21,8 @@ export function setCookie(name:string, value:any, props:any = {}) {
       d.setTime(d.getTime() + exp * 1000);
       exp = props.expires = d;
   }
-  if (exp && exp.toUTCString) {
-      props.expires = exp.toUTCString();
+  if (exp && exp.toString) {
+      props.expires = exp.toString();
   }
   value = encodeURIComponent(value);
   let updatedCookie:string = name + "=" + value;
@@ -33,5 +37,5 @@ export function setCookie(name:string, value:any, props:any = {}) {
 }
 
 export function deleteCookie(name:string) {
-  setCookie(name, null, { expires: -1 });
+  setCookie(name, "", { expires: -1 });
 }

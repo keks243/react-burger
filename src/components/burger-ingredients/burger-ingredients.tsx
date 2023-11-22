@@ -28,7 +28,7 @@ function BurgerIngredients(props: BurgerIngredientsProps) {
 
   const dispatch = useDispatch();
 
-  const getIngredient = (ingredientObj: any) => {
+  const getIngredient = (ingredientObj: Ingredient) => {
     dispatch({ type: GET_SELECT_INGREDIENT, payload: ingredientObj });
   };
 
