@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { forgotPassword } from "../../services/user-actions/actions";
 import { GET_LAST_PUTH } from "../../services/user-actions/actions";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks-redux";
+
 
 import styles from "./forgot-password.module.css";
 import {
@@ -14,18 +16,18 @@ interface ForgotPasswordPageProps {}
 
 const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = () => {
   const [email, setEmail] = useState<string>("");
-  const puth = useSelector((state:any) => state.usersInfo.lastPuth);
+  const puth = useAppSelector((state) => state.usersInfo.lastPuth);
 
   const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const forgot = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch<any>(forgotPassword(email, navigate));
+    dispatch(forgotPassword(email, navigate));
     dispatch({ type: GET_LAST_PUTH, payload: "/forgot" });
     navigate("/password-reset");
   };

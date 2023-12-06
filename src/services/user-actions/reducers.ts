@@ -20,38 +20,56 @@ import {
   POST_RESET_PASSWORD_REQUEST,
   POST_RESET_PASSWORD_SUCCESS,
   POST_RESET_PASSWORD_ERROR,
-  GET_LAST_PUTH
+  GET_LAST_PUTH,
 } from "./actions";
 
-const initialState = {
-  user: [],
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+}
 
+interface State {
+  user: User[];
+  isPostRegisterLoading: boolean;
+  isPostRegisterError: boolean;
+  isPostAuthorizeLoading: boolean;
+  isPostAuthorizeError: boolean;
+  isGetUserLoading: boolean;
+  isGetUserError: boolean;
+  isPatchUserLoading: boolean;
+  isPatchUserError: boolean;
+  isPostLogoutUserLoading: boolean;
+  isPostLogoutUserError: boolean;
+  isEmailSend: boolean;
+  isPostForgotPasswordUserLoading: boolean;
+  isPostForgotPasswordUserError: boolean;
+  isPostResetPasswordUserLoading: boolean;
+  isPostResetPasswordUserError: boolean;
+  lastPuth: string;
+}
+
+const initialState: State = {
+  user: [],
   isPostRegisterLoading: false,
   isPostRegisterError: false,
-
   isPostAuthorizeLoading: false,
   isPostAuthorizeError: false,
-
   isGetUserLoading: false,
   isGetUserError: false,
-
   isPatchUserLoading: false,
   isPatchUserError: false,
-
   isPostLogoutUserLoading: false,
   isPostLogoutUserError: false,
-
   isEmailSend: false,
   isPostForgotPasswordUserLoading: false,
   isPostForgotPasswordUserError: false,
-
   isPostResetPasswordUserLoading: false,
   isPostResetPasswordUserError: false,
-
-  lastPuth: ''
+  lastPuth: "",
 };
 
-export default (state = initialState, action) => {
+const userReducer = (state = initialState, action: any): State => {
   switch (action.type) {
     case POST_REGISTER_USER_REQUEST: {
       return {
@@ -205,9 +223,11 @@ export default (state = initialState, action) => {
       };
     }
     case GET_LAST_PUTH: {
-      return {...state, lastPuth: action.payload}
+      return { ...state, lastPuth: action.payload };
     }
     default:
       return state;
   }
 };
+
+export default userReducer;

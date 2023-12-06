@@ -2,6 +2,8 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { userCreate } from '../../services/user-actions/actions';
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks-redux";
+
 import styles from './register-page.module.css';
 import {
   Button,
@@ -52,11 +54,11 @@ export const RegisterPage: React.FC<RegisterPageProps> = () => {
   };
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const register = (event: FormEvent) => {
     event.preventDefault();
-    dispatch<any>(userCreate(email, pass, name, navigate));
+    dispatch(userCreate(email, pass, name, navigate));
   };
 
   return (

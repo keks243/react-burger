@@ -1,0 +1,41 @@
+.orderNumber {
+    display: flex;
+}
+
+.DetailedOrderContainer {
+    display: flex;
+    width: 640px;
+    flex-direction: column;
+}
+
+.status {
+    color: #00CCCC;
+}
+
+.containerPrice {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+}
+
+.elementContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.elementSubContainer {
+    display: flex;
+    flex-direction: row;
+    height: 300px;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+    width: 100%;
+}
+
+.DatePriceContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

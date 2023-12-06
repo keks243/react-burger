@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { resetPassword } from '../../services/user-actions/actions';
-
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks-redux";
 import styles from './reset-password.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -18,12 +18,12 @@ export const ResetPasswordPage: React.FC = () => {
     setCode(e.target.value);
   };
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const reset = (event: FormEvent) => {
     event.preventDefault();
-    dispatch<any>(resetPassword(newPass, code, navigate));
+    dispatch(resetPassword(newPass, code, navigate));
   };
 
   return (

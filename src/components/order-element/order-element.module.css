@@ -1,0 +1,31 @@
+.container {
+    display: flex;
+    align-items: center;
+    column-gap: 14px;
+    width: 100%;
+
+}
+
+.imageContainer {
+    display: flex;
+    border-radius: 50%;
+    height: 64px;
+    min-width: 64px;
+    max-width: 64px;
+    border: 2px solid #801AB2;
+}
+
+.imageContainer > img {
+    width: 100%;
+    object-fit: cover;
+    height: 100%;
+}
+
+.name {
+    width: 100%;
+}
+.priceContainer {
+    display: flex;
+    column-gap: 8px;
+    align-items: center;
+}

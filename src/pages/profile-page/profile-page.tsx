@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, ChangeEvent, FormEvent } from "react";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks-redux";
 import styles from "./profile-page.module.css";
 import {
   Button,
@@ -38,25 +39,20 @@ export function ProfilePage() {
   const [isInputActive, setIsInputActive] = useState<boolean>(false);
   const [isInputEmailActive, setIsInputEmailActive] = useState<boolean>(false);
 
-  const user: IUser = useSelector(getUserDate);
+  const user = useAppSelector(getUserDate);
 
   const nameRefInput = useRef<HTMLInputElement>(null);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
-  const updateUser = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    dispatch<any>(patchUser(
-        name,
-        email,
-        password,
-        setIsInputDisabled,
-        setIsInputEmailDisabled
-      )
-    );
-  };
+ 
+
+  const updateUser = (event:React.FormEvent) => {
+    event.preventDefault()
+    dispatch(patchUser(name, email, password, setIsInputDisabled, setIsInputEmailDisabled))
+}
 
   useEffect(() => {
     if (!isInputDisabled && nameRefInput.current) {
@@ -92,7 +88,7 @@ export function ProfilePage() {
   }, [user]);
 
   const logout = () => {
-    dispatch<any>(userLogout(navigate));
+    dispatch(userLogout(navigate));
   };
 
   return (
@@ -106,7 +102,7 @@ export function ProfilePage() {
               </span>
             )}
           </NavLink>
-          <NavLink to="orders" className={styles.link}>
+          <NavLink to="/profile/orders" className={styles.link}>
             {({ isActive }) => (
               <span className={isActive ? styles.selectLink : styles.link}>
                 История заказов

@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userAuthorize } from "../../services/user-actions/actions";
 import { GET_LAST_PUTH } from "../../services/user-actions/actions";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks-redux";
+
 
 import styles from "./login-page.module.css";
 import {
@@ -12,7 +14,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 export function LoginPage() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [pass, setPass] = useState<string>("");
@@ -26,7 +28,7 @@ export function LoginPage() {
 
   const login = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch<any>(userAuthorize(email, pass, navigate));
+    dispatch(userAuthorize(email, pass, navigate));
   };
 
   const toForgot = () => {

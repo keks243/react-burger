@@ -1,0 +1,43 @@
+.orderFeedInformationContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 600px;
+    row-gap: 60px;
+}
+
+.completeContainer {
+    display: flex;
+    column-gap: 36px;
+}
+
+.completeSubContainer {
+    width: 100%;
+}
+
+.title{
+    font-size: 24px;
+}
+
+.numberOrder {
+    display: flex;
+    row-gap: 8px;
+    flex-wrap: wrap;
+    height: 150px;
+    flex-direction: column;
+}
+
+.number {
+    color: #00CCCC;
+    font-size: 18px;
+}
+
+.complite{
+    font-size: 18px;
+}
+
+.completeAllTime {
+    text-shadow: 0 4px 32px rgba(51, 51, 255, 0.50), 0 0 8px rgba(51, 51, 255, 0.25), 0 0 16px rgba(51, 51, 255, 0.25);
+    font-size: 28px;
+}
+

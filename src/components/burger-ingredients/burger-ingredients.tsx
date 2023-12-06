@@ -4,8 +4,7 @@ import { useInView } from "react-intersection-observer";
 import { useSelector, useDispatch } from "react-redux";
 import { getConstructorIngredients } from "../../services/constructor/selectors";
 import { GET_SELECT_INGREDIENT } from "../../services/ingredients/actions";
-import { useLocation, useNavigate } from "react-router-dom";
-import IngredientDetails from "../ingredient-details/ingredient-details";
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks-redux";
 import Card from "../card/card";
 import Modal from "../modal/modal";
 import styles from "./burger-ingredients.module.css";
@@ -26,13 +25,13 @@ function BurgerIngredients(props: BurgerIngredientsProps) {
 
   const constructorIngredients = useSelector(getConstructorIngredients);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const getIngredient = (ingredientObj: Ingredient) => {
     dispatch({ type: GET_SELECT_INGREDIENT, payload: ingredientObj });
   };
 
-  const data = useSelector((state: any) => state.ingredients.ingredients);
+  const data = useAppSelector((state) => state.ingredients.ingredients);
 
   const types = ["bun", "main", "sauce"];
   const typesRu = ["Булки", "Начинки", "Соусы"];

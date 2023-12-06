@@ -5,17 +5,15 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag, useDrop } from "react-dnd";
+import type { Identifier } from 'dnd-core'
+import { IngredientTypes } from '../../services/types/ingredient-types'
+
 
 interface BurgerConstructorMainProps {
-  data: {
-    name: string;
-    price: number;
-    image: string;
-    uniqId: string;
-  };
-  onDelete: (data: any) => void;
+  data: IngredientTypes ;
+  onDelete: (data: IngredientTypes) => void;
   index: number;
-  moveCard: (dragIndex: number, hoverIndex: number, data: any) => void;
+  moveCard: (dragIndex: number, hoverIndex: number, data: IngredientTypes) => void;
   id: string;
 }
 
@@ -23,14 +21,18 @@ const BurgerConstructorMain: React.FC<BurgerConstructorMainProps> = (props) => {
   const { data, onDelete, index, moveCard, id } = props;
 
   const ref = useRef<HTMLDivElement>(null);
-  const [{ handlerId }, drop] = useDrop({
+  const [{ handlerId }, drop] = useDrop<
+  any,
+  void,
+  { handlerId: Identifier | null }
+>({
     accept: "moveCardConstructor",
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item: any, monitor) {
+    hover(item, monitor) {
       if (!ref.current) {
         return;
       }

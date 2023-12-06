@@ -4,14 +4,18 @@ import { useDrop } from "react-dnd";
 import { useNavigate } from "react-router-dom";
 import { useModal } from "../../hooks/useModal";
 import { getCookie } from "../../coockie";
+import { IngredientTypes, BunTypes } from '../../services/types/ingredient-types'
+import {useAppDispatch, useAppSelector} from "../../hooks/hooks-redux";
+
+
 import {
   SORT_INGREDIENT,
   DELETE_INGREDIENT,
-} from "../../services/constructor/actions.js";
+} from "../../services/constructor/actions";
 import {
   addIngredient,
   postOrderIngredients,
-} from "../../services/constructor/actions.js";
+} from "../../services/constructor/actions";
 import BurgerConstructorMain from "../burger-constructor-main/burger-constructor-main";
 import styles from "./burger-constructor.module.css";
 import OrdertDetails from "../order-details/order-details";
@@ -21,8 +25,8 @@ import {
   Button,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { getConstructorIngredients } from "../../services/constructor/selectors.js";
-import { deleteIngredient } from "../../services/constructor/actions.js";
+import { getConstructorIngredients } from "../../services/constructor/selectors";
+import { deleteIngredient } from "../../services/constructor/actions";
 
 interface Ingredient {
   _id: string;
@@ -36,14 +40,14 @@ interface Ingredient {
 const BurgerConstructor: FC = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
   const navigate = useNavigate();
-  const number = useSelector<any>(
+  const number = useAppSelector(
     (state) => state.ingredientsСonstructor.number
   );
   let accessToken = getCookie("token");
   let bodyPost: string[] = [];
-  let bun: Ingredient = {
+  let bun: BunTypes = {
     _id: "",
-    uniqId: "",
+    uniqId: '',
     type: "",
     name: "",
     image: "",
@@ -51,9 +55,9 @@ const BurgerConstructor: FC = () => {
   };
   let totalCost = 0;
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const onDelete = (ingredientObj: Ingredient) => {
+  const onDelete = (ingredientObj: IngredientTypes) => {
     dispatch(deleteIngredient(ingredientObj));
   };
 
@@ -61,7 +65,7 @@ const BurgerConstructor: FC = () => {
 
   const [, dropRef] = useDrop({
     accept: "ingredient",
-    drop(ingredientObj: Ingredient) {
+    drop(ingredientObj: IngredientTypes  ) {
       dispatch(addIngredient(ingredientObj));
     },
   });
@@ -78,14 +82,14 @@ const BurgerConstructor: FC = () => {
     bodyPost.push(data[index]._id);
   }
 
-  if (data.find((e: Ingredient) => e.type === "bun")) {
+  if (data.find((e: Ingredient | undefined) => e && e.type === "bun")) {
     bun = {
-      _id: data.find((e: Ingredient) => e.type === "bun")._id,
-      uniqId: data.find((e: Ingredient) => e.type === "bun").uniqId,
-      type: data.find((e: Ingredient) => e.type === "bun").type,
-      name: data.find((e: Ingredient) => e.type === "bun").name,
-      image: data.find((e: Ingredient) => e.type === "bun").image,
-      price: data.find((e: Ingredient) => e.type === "bun").price,
+      _id: data.find((e: Ingredient | undefined) => e && e.type === "bun")?._id || "",
+      uniqId: data.find((e: Ingredient | undefined) => e && e.type === "bun")?.uniqId || "",
+      type: data.find((e: Ingredient | undefined) => e && e.type === "bun")?.type || "",
+      name: data.find((e: Ingredient | undefined) => e && e.type === "bun")?.name || "",
+      image: data.find((e: Ingredient | undefined) => e && e.type === "bun")?.image || "",
+      price: data.find((e: Ingredient | undefined) => e && e.type === "bun")?.price || 0,
     };
   }
 
@@ -103,7 +107,7 @@ const BurgerConstructor: FC = () => {
   const openModalConstructor = () => {
     if (accessToken) {
       openModal();
-      dispatch<any>(postOrderIngredients(bodyPost));
+      dispatch(postOrderIngredients(bodyPost));
     } else {
       navigate("/login");
     }
@@ -121,8 +125,8 @@ const BurgerConstructor: FC = () => {
         />
         <section className={`custom-scroll ${styles.ingredients}`}>
           {data
-            .filter((ingredient: Ingredient) => ingredient.type !== "bun")
-            .map((item: Ingredient, index: number) => (
+            .filter((ingredient: IngredientTypes) => ingredient.type !== "bun")
+            .map((item: IngredientTypes, index: number) => (
               <BurgerConstructorMain
                 key={item.uniqId}
                 data={item}

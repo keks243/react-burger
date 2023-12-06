@@ -1,16 +1,19 @@
 .container {
-    height: 100vh;
+    /* height: 100vh; */
     display: flex;
-    padding-top: 120px;
-    justify-content: center;
+    padding-top: 20px;
+    /* justify-content: center; */
     column-gap: 60px;
-    padding-right: 340px;
 }
 .containerLeftMenu {
     display: flex;
     row-gap: 80px;
     flex-direction: column;
-    padding-top: 20px;
+    padding-top: 120px;
+}
+
+.OrderFeedListContainer{
+    padding-top: 80px;
 }
 .containerLink {
     display: flex;

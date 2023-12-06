@@ -1,24 +1,19 @@
 import React, { useEffect, useState } from "react";
 import styles from "./ingredient-details.module.css";
 import { useLocation, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useAppSelector} from "../../hooks/hooks-redux";
+import { IngredientTypes } from '../../services/types/ingredient-types'
 
-interface Ingredient {
-  _id: string;
-  image: string;
-  name: string;
-  calories: number;
-}
 
 const IngredientDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
-  const ingredient = useSelector((state: any) => state.ingredients.ingredients);
-  const [data, setData] = useState<Ingredient | undefined>(undefined);
+  const ingredient = useAppSelector((state) => state.ingredients.ingredients);
+  const [data, setData] = useState<IngredientTypes | undefined>(undefined);
 
   useEffect(() => {
     if (ingredient.length !== 0) {
-      const foundIngredient = ingredient.find((item: Ingredient) => item._id === id);
+      const foundIngredient = ingredient.find((item: IngredientTypes) => item._id === id);
       setData(foundIngredient);
     }
   }, [ingredient, location, id]);

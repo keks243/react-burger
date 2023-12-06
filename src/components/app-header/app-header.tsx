@@ -27,7 +27,7 @@ function AppHeader() {
           )}
         </NavLink>
 
-        <NavLink to="123" className={styles.buttonContainer}>
+        <NavLink to="/feed" className={styles.buttonContainer}>
           {({ isActive }) => (
             <>
               <ListIcon type={isActive ? "primary" : "secondary"} />
