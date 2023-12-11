@@ -95,7 +95,7 @@ function BurgerIngredients(props: BurgerIngredientsProps) {
             {data
               .filter((ingredient: Ingredient) => ingredient.type === "bun")
               .map((item: Ingredient) => (
-                <section key={item._id} onClick={() => getItem(item)}>
+                <section id="bun" key={item._id} onClick={() => getItem(item)}>
                   <Card item={item} />
                 </section>
               ))}
@@ -109,7 +109,7 @@ function BurgerIngredients(props: BurgerIngredientsProps) {
             {data
               .filter((ingredient: Ingredient) => ingredient.type === "main")
               .map((item: Ingredient) => (
-                <section key={item._id} onClick={() => getItem(item)}>
+                <section id="card" key={item._id} onClick={() => getItem(item)}>
                   <Card item={item} />
                 </section>
               ))}

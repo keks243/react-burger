@@ -17,15 +17,23 @@ const IngredientDetails: React.FC = () => {
       setData(foundIngredient);
     }
   }, [ingredient, location, id]);
+  useEffect(() => {
+    console.log(data);
+    
+  }, [])
 
   if (!data) {
     return <div>Loading...</div>;
+  }else{
+    console.log(data);
   }
+
+  
 
   return (
     <section className={styles.container}>
       <img src={data.image} alt="dataImage" />
-      <span className={`text text_type_main-medium ${styles.item}`}>
+      <span id="modal-name" className={`text text_type_main-medium ${styles.item}`}>
         {data.name}
       </span>
       <section className={styles.downContainer}>
@@ -33,7 +41,7 @@ const IngredientDetails: React.FC = () => {
           <span className="text text_type_main-default text_color_inactive">
             Каллории, ккал
           </span>
-          <span className="text text_type_digits-default text_color_inactive">
+          <span id="modal-calories" className="text text_type_digits-default text_color_inactive">
             {data.calories}
           </span>
         </section>
@@ -41,24 +49,24 @@ const IngredientDetails: React.FC = () => {
           <span className="text text_type_main-default text_color_inactive">
             Белки, г
           </span>
-          <span className="text text_type_digits-default text_color_inactive">
-            {data.calories}
+          <span id="modal-proteins" className="text text_type_digits-default text_color_inactive">
+            {data.proteins}
           </span>
         </section>
         <section className={styles.detail}>
           <span className="text text_type_main-default text_color_inactive">
             Жиры, г
           </span>
-          <span className="text text_type_digits-default text_color_inactive">
-            {data.calories}
+          <span id="modal-fat" className="text text_type_digits-default text_color_inactive">
+            {data.fat}
           </span>
         </section>
         <section className={styles.detail}>
           <span className="text text_type_main-default text_color_inactive">
             Углеводы, г
           </span>
-          <span className="text text_type_digits-default text_color_inactive">
-            {data.calories}
+          <span id="modal-carbohydrates" className="text text_type_digits-default text_color_inactive">
+            {data.carbohydrates}
           </span>
         </section>
       </section>

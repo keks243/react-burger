@@ -114,7 +114,7 @@ const BurgerConstructor: FC = () => {
   };
 
   return (
-    <section ref={dropRef} className={styles.container}>
+    <section id="constructor" ref={dropRef} className={styles.container}>
       <section className={styles.subContainer}>
         <ConstructorElement
           type="top"
@@ -156,6 +156,7 @@ const BurgerConstructor: FC = () => {
           type="primary"
           size="medium"
           onClick={openModalConstructor}
+          id="orderBtn"
         >
           Оформить заказ
         </Button>

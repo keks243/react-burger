@@ -1,8 +1,8 @@
-import { nanoid } from "nanoid";
+import { nanoid } from "@reduxjs/toolkit";
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "../store"; 
 import { request } from "../../request";
-import {getCookie} from "../../coockie";
+import { getCookie } from "../../coockie";
 import { IngredientTypes } from '../types/ingredient-types'
 
 

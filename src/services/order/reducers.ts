@@ -1,10 +1,10 @@
+import { IOrderData } from "../web-socket/actions";
 import {
   GET_DETAILED_ORDER_ERROR,
   GET_DETAILED_ORDER_REQUEST,
   GET_DETAILED_ORDER_SUCCESS,
   TTodoActions,
 } from "./actions";
-import { IOrderData } from "../web-socket/actions";
 
 interface IDetailedOrderState {
   isLoading: boolean;

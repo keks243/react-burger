@@ -48,12 +48,13 @@ const Modal: React.FC<ModalProps> = (props) => {
   return createPortal(
     <ModalOverlay onClose={handleCloseModal}>
       <section
+        id="modal"
         className={styles.container}
         onClick={(event) => event.stopPropagation()}
       >
         <section className={styles.modalHeader}>
           <h2 className="text text_type_main-large">{props.title}</h2>
-          <button className={styles.close} onClick={handleCloseModal}>
+          <button id="closeBtn" className={styles.close} onClick={handleCloseModal}>
             <CloseIcon type="primary" />
           </button>
         </section>
