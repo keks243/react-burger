@@ -12,7 +12,7 @@ const OrdertDetails: FC<OrdertDetailsProps> = ({ number }) => {
 
   return (
     <section className={styles.container}>
-    <h2 className={`text text_type_digits-large pt-9 ${styles.number}`}>
+    <h2 id="order-number" className={`text text_type_digits-large pt-9 ${styles.number}`}>
       {orderNumber === null ? "..." : orderNumber}
     </h2>
     <span className="text text_type_main-medium">идентификатор заказа</span>
