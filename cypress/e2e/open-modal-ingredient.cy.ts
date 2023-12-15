@@ -1,6 +1,6 @@
 describe("Drag and Drop Test", () => {
   it("Should drag and drop a block", () => {
-    cy.visit("http://localhost:3000/");
+    cy.visit("/");
 
     cy.get("#card").click();
 
